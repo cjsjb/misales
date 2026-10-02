@@ -159,6 +159,9 @@ def main():
             for row in reader:
                 calendar_data.append(row)
 
+    # Sort in reverse chronological order (newest date first)
+    calendar_data.sort(key=lambda x: x.get("fecha", "").strip(), reverse=True)
+
     cards_html = []
 
     for row in calendar_data:
@@ -198,7 +201,7 @@ def main():
     with open(index_path, "w", encoding="utf-8") as f:
         f.write(full_html)
 
-    print(f"Successfully generated web depot index: {index_path}")
+    print(f"Successfully generated web depot index (reverse sorted): {index_path}")
 
 if __name__ == "__main__":
     main()
