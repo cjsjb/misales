@@ -1,0 +1,57 @@
+name: Deploy Missals Web Depot
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'para-misales/**'
+      - 'calendario.csv'
+      - 'template-*.typ'
+      - 'common*.typ'
+      - '*.py'
+      - '.github/workflows/deploy-missals.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v2
+
+      - name: Build all missal PDFs
+        run: python3 haz-misal.py --all
+
+      - name: Build web depot index
+        run: python3 build-index.py
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

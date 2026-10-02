@@ -1,0 +1,5 @@
+*.pdf
+*.inc
+public/
+__pycache__/
+.reasonix/

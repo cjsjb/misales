@@ -9,6 +9,7 @@ Usage:
 """
 
 import argparse
+import csv
 import subprocess
 import sys
 import tempfile
@@ -17,6 +18,7 @@ from pathlib import Path
 from generate_inc import generate_inc_file, normalize_date
 
 BASE_DIR = Path(__file__).parent.resolve()
+CALENDARIO_PATH = BASE_DIR / "calendario.csv"
 
 CJSJB_TYP_CONTENT = """#import "template-cjsjb.typ": render-cjsjb
 #import "common-defaults.typ": *
@@ -98,7 +100,6 @@ def compile_template(template_name: str, inc_file_name: str, date_compact: str):
 
     typ_code = content_template.format(inc_file=inc_file_name)
 
-    # Create temporary .typ file inside BASE_DIR so relative imports (e.g. template-sjb.typ) work smoothly
     with tempfile.NamedTemporaryFile("w", dir=BASE_DIR, suffix=".typ", delete=False, encoding="utf-8") as tmp_file:
         tmp_file.write(typ_code)
         tmp_path = Path(tmp_file.name)
@@ -115,9 +116,36 @@ def compile_template(template_name: str, inc_file_name: str, date_compact: str):
         if tmp_path.exists():
             tmp_path.unlink()
 
+def build_for_date(date_str: str, template: str = "all") -> bool:
+    try:
+        formatted_date, date_compact = normalize_date(date_str)
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return False
+
+    inc_path = generate_inc_file(date_str)
+    templates_to_compile = ["sjb", "cjsjb"] if template == "all" else [template]
+    success = True
+    for t_name in templates_to_compile:
+        if not compile_template(t_name, inc_path.name, date_compact):
+            success = False
+    return success
+
+def get_all_dates_from_calendar() -> list[str]:
+    dates = []
+    if CALENDARIO_PATH.exists():
+        with open(CALENDARIO_PATH, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                d = row.get("fecha", "").strip()
+                if d:
+                    dates.append(d)
+    return dates
+
 def main():
-    parser = argparse.ArgumentParser(description="Build missal PDFs for a given date.")
-    parser.add_argument("date", help="Date in YYYY-MM-DD or YYYYMMDD format (e.g. 2026-09-27)")
+    parser = argparse.ArgumentParser(description="Build missal PDFs for a given date or all dates in calendar.")
+    parser.add_argument("date", nargs="?", help="Date in YYYY-MM-DD or YYYYMMDD format (e.g. 2026-09-27)")
+    parser.add_argument("--all", action="store_true", help="Build missals for all dates in calendario.csv")
     parser.add_argument(
         "--template",
         choices=["sjb", "cjsjb", "all"],
@@ -126,23 +154,22 @@ def main():
     )
     args = parser.parse_args()
 
-    try:
-        formatted_date, date_compact = normalize_date(args.date)
-    except ValueError as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # 1. Generate .inc file
-    inc_path = generate_inc_file(args.date)
-
-    # 2. Compile PDF(s)
-    templates_to_compile = ["sjb", "cjsjb"] if args.template == "all" else [args.template]
-    success = True
-    for t_name in templates_to_compile:
-        if not compile_template(t_name, inc_path.name, date_compact):
-            success = False
-
-    if not success:
+    if args.all:
+        dates = get_all_dates_from_calendar()
+        if not dates:
+            print("No dates found in calendario.csv", file=sys.stderr)
+            sys.exit(1)
+        success = True
+        for d in dates:
+            if not build_for_date(d, args.template):
+                success = False
+        if not success:
+            sys.exit(1)
+    elif args.date:
+        if not build_for_date(args.date, args.template):
+            sys.exit(1)
+    else:
+        parser.print_help()
         sys.exit(1)
 
 if __name__ == "__main__":
