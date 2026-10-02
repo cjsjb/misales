@@ -40,6 +40,8 @@ jobs:
 
       - name: Set up Typst
         uses: typst-community/setup-typst@v2
+        with:
+          version: 'latest'
 
       - name: Build all missal PDFs
         run: python3 haz-misal.py --all
