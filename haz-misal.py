@@ -19,6 +19,7 @@ from generate_inc import generate_inc_file, normalize_date
 
 BASE_DIR = Path(__file__).parent.resolve()
 CALENDARIO_PATH = BASE_DIR / "calendario.csv"
+FONTS_DIR = BASE_DIR / ".fonts"
 
 CJSJB_TYP_CONTENT = """#import "template-cjsjb.typ": render-cjsjb
 #import "common-defaults.typ": *
@@ -105,7 +106,11 @@ def compile_template(template_name: str, inc_file_name: str, date_compact: str):
         tmp_path = Path(tmp_file.name)
 
     try:
-        cmd = ["typst", "compile", str(tmp_path), str(output_pdf_path)]
+        cmd = ["typst", "compile"]
+        if FONTS_DIR.exists():
+            cmd.extend(["--font-path", str(FONTS_DIR)])
+        cmd.extend([str(tmp_path), str(output_pdf_path)])
+
         res = subprocess.run(cmd, cwd=BASE_DIR, capture_output=True, text=True)
         if res.returncode != 0:
             print(f"Error compiling {output_pdf_name}:\n{res.stderr}", file=sys.stderr)
