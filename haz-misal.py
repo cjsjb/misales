@@ -116,6 +116,7 @@ WEB_SJB_TYP_CONTENT = """#import "template-web-sjb.typ": render-web-sjb
   oracion_delosfieles: oracion_delosfieles,
   oracion_ofrendas: oracion_ofrendas,
   oracion_comunion: oracion_comunion,
+  oracion_personal: oracion_personal,
 )
 """
 

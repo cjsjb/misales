@@ -48,6 +48,7 @@
   oracion_delosfieles: none,
   oracion_ofrendas: none,
   oracion_comunion: none,
+  oracion_personal: none,
 ) = {
   set text(lang: "es")
 
@@ -197,6 +198,12 @@
     == Oración después de la comunión
 
     #oracion_comunion #respuesta_web[Amén.]
+
+    #if oracion_personal != none [
+      == Oración personal después de la comunión
+
+      #oracion_personal
+    ]
 
     = Rito de conclusión
   ]

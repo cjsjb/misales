@@ -31,5 +31,6 @@
 #let oracion_delosfieles = none
 #let oracion_ofrendas = none
 #let oracion_comunion = none
+#let oracion_personal = none
 #let monicion_entrada = none
 #let monicion_ofrendas = none

@@ -104,3 +104,12 @@
 #let oracion_comunion = [
   Dios omnipotente, saciados con este alimento y bebida celestiales, concédenos ser transformados en aquel, a quien hemos recibido en este sacramento. Por Jesucristo, nuestro señor.
 ]
+#let oracion_personal = [
+  Jesús, hoy me recuerdas que mi vida es una viña que has puesto en mis manos. Nada de lo que tengo comenzó completamente conmigo: recibí la vida, personas que me cuidaron, oportunidades, talentos, fe, comunidad y tantos dones que muchas veces doy por hechos. Gracias por todo lo recibido. Gracias por mi familia, mis amigos, mis capacidades, mi trabajo y por las personas que han hecho posible mucho de lo que hoy soy. Gracias también por esta comunidad parroquial y por tantos hombres y mujeres que durante 74 años han sembrado fe, servicio y esperanza.
+
+  Hoy te pido que me libres de vivir como dueño absoluto de mi vida. Enséñame a reconocerme responsable de los dones que me has confiado. Que mi fe produzca frutos.
+
+  Que mis talentos sirvan. Que mis relaciones generen vida. Que mis decisiones cuiden tu creación. Que mi paso por este mundo deje más amor del que encontró.
+
+  Jesús, gracias porque sigues confiando tu viña en nuestras manos. Dame humildad para reconocer de quién viene todo y generosidad para devolverte frutos abundantes. Te alabo y te doy gracias porque todo es don y todo puede convertirse en misión. Amén.
+]

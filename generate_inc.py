@@ -153,6 +153,7 @@ def generate_inc_file(date_arg: str) -> Path:
     monicion_entrada = sjb_sections.get("Mención de entrada", sjb_sections.get("Monición de entrada", ""))
     monicion_ofrendas = sjb_sections.get("Mención de ofrendas", sjb_sections.get("Monición de ofrendas", ""))
     oracion_universal = sjb_sections.get("Oración universal", "")
+    oracion_personal = sjb_sections.get("Oración personal después de la comunión", "")
 
     oracion_colecta = liturgia_sections.get("Oración colecta", "")
     oracion_ofrendas = liturgia_sections.get("Oración sobre las ofrendas", "")
@@ -223,6 +224,9 @@ def generate_inc_file(date_arg: str) -> Path:
 
     if oracion_comunion:
         inc_lines.append(f'#let oracion_comunion = {format_typst_block(oracion_comunion)}')
+
+    if oracion_personal:
+        inc_lines.append(f'#let oracion_personal = {format_typst_block(oracion_personal)}')
 
     output_path = BASE_DIR / f"{date_compact}.inc"
     with open(output_path, "w", encoding="utf-8") as f:

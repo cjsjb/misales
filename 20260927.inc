@@ -94,3 +94,10 @@
 #let oracion_comunion = [
   Que este misterio celestial renueve, Señor, nuestro cuerpo y nuestro espíritu, para que seamos coherederos en la gloria de aquel cuya muerte, al anunciarla, la hemos compartido. Él, que vive y reina por los siglos de los siglos.
 ]
+#let oracion_personal = [
+  Jesús, hoy me haces una pregunta muy concreta: ¿digo que sí solamente con mis palabras, o realmente hago la voluntad del Padre? Reconozco que muchas veces tengo buenas intenciones. Prometo cambiar, servir más, rezar mejor, perdonar o dedicar tiempo a lo verdaderamente importante… pero después dejo que la comodidad, las distracciones o el miedo decidan por mí.
+
+  Gracias porque Tú no me defines por mis incoherencias. Gracias porque, como al hijo del Evangelio, me das la oportunidad de recapacitar, volver y comenzar nuevamente. Hoy te pido que hagas mi fe más concreta. Que mis palabras coincidan cada vez más con mis decisiones. Ayúdame a ser coherente en mi familia, mis amistades, mi trabajo, mis estudios y mi servicio.
+
+  Dame humildad para reconocer cuando he dicho “no” con mi vida y valentía para cambiar de dirección. Jesús, quiero que mi respuesta a Ti sea verdadera. Que cuando diga «sí», ese sí pueda verse en mi manera de amar. Te alabo y te doy gracias porque nunca te cansas de darme otra oportunidad. Amén.
+]
