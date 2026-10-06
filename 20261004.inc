@@ -147,3 +147,6 @@
 
   *La historia posterior de Jesús y sus parábolas pone de manifiesto que la muerte del Hijo marca, no el final, sino el inicio de una nueva etapa del designio de Dios.* A partir de Jesús, la vid verdadera, rechazada por los judíos, crece la viña del Señor, se expande y cubre, no ya en los montes de Palestina, sino en el mundo entero, ramificándose en cada pueblo y nación, haciendo de judíos y gentiles una sola comunidad en comunión unos con otros, todos con el Padre, en acción de gracias y frutos de justicia por el Espíritu de Dios que habita en ellos.
 ]
+#let lo_sabias = [
+  Hoy, 4 de octubre, celebramos a San Francisco a quien se le considera el gran renovador de la Iglesia al escuchar el llamado divino de "_Ve y repara mi Iglesia_". Proclamado por la Iglesia como *patrono de la ecología y de los animales* (a quienes llamaba hermanos y por quienes hoy se bendicen las mascotas), Francisco abrazó la pobreza evangélica, trató a todos como hermanos y llevó el consuelo de Dios a los más vulnerables en plena comunión con el Papa. A él le debemos también el primer pesebre o Nacimiento en la historia. Su vida nos recuerda que el cuidado de la creación y la fidelidad a la Iglesia caminan siempre de la mano.
+]

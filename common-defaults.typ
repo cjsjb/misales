@@ -34,5 +34,6 @@
 #let oracion_personal = none
 #let eco_de_la_palabra = none
 #let entre_lineas_sagradas = none
+#let lo_sabias = none
 #let monicion_entrada = none
 #let monicion_ofrendas = none

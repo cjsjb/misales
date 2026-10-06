@@ -119,6 +119,7 @@ WEB_SJB_TYP_CONTENT = """#import "template-web-sjb.typ": render-web-sjb
   oracion_personal: oracion_personal,
   eco_de_la_palabra: eco_de_la_palabra,
   entre_lineas_sagradas: entre_lineas_sagradas,
+  lo_sabias: lo_sabias,
 )
 """
 

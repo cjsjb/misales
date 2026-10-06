@@ -68,6 +68,7 @@
   oracion_personal: none,
   eco_de_la_palabra: none,
   entre_lineas_sagradas: none,
+  lo_sabias: none,
 ) = {
   set text(lang: "es")
 
@@ -232,6 +233,12 @@
 
     #if entre_lineas_sagradas != none [
       #bloque_reflexion("icono-entrelineassagradas.webp", "Entre líneas sagradas", entre_lineas_sagradas)
+    ]
+
+    // En la hoja se titula «¿Lo sabías?», aunque en el .md la sección se llama
+    // «Cápsula para saber más».
+    #if lo_sabias != none [
+      #bloque_reflexion("icono-losabias.webp", "¿Lo sabías?", lo_sabias)
     ]
 
     = Rito de conclusión
