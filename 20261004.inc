@@ -40,7 +40,7 @@
   [
     Ya no nos alejaremos de ti;
     consérvanos la vida y alabaremos tu poder.
-    Restablécerenos, Señor, Dios de los ejércitos,
+    Restablécenos, Señor, Dios de los ejércitos,
     míranos con bondad y estaremos a salvo.
 ],
 )
