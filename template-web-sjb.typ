@@ -49,6 +49,7 @@
   oracion_ofrendas: none,
   oracion_comunion: none,
   oracion_personal: none,
+  eco_de_la_palabra: none,
 ) = {
   set text(lang: "es")
 
@@ -203,6 +204,20 @@
       == Oración personal después de la comunión
 
       #oracion_personal
+    ]
+
+    // Eco de la palabra: separador, cabecera con icono al lado y el texto de
+    // reflexión. Como la oración personal, sólo existe en algunos domingos.
+    #if eco_de_la_palabra != none [
+      #html.elem("div", attrs: (class: "separador"))
+
+      #html.elem("div", attrs: (class: "con-icono"))[
+        #image("icono-ecodelapalabra.webp")
+
+        #html.elem("h3")[Eco de la palabra]
+      ]
+
+      #eco_de_la_palabra
     ]
 
     = Rito de conclusión

@@ -154,6 +154,8 @@ def generate_inc_file(date_arg: str) -> Path:
     monicion_ofrendas = sjb_sections.get("Mención de ofrendas", sjb_sections.get("Monición de ofrendas", ""))
     oracion_universal = sjb_sections.get("Oración universal", "")
     oracion_personal = sjb_sections.get("Oración personal después de la comunión", "")
+    # El eco y las demás secciones de reflexión también viven en <fecha>-sjb.md.
+    eco_de_la_palabra = sjb_sections.get("Eco de la palabra", "")
 
     oracion_colecta = liturgia_sections.get("Oración colecta", "")
     oracion_ofrendas = liturgia_sections.get("Oración sobre las ofrendas", "")
@@ -227,6 +229,9 @@ def generate_inc_file(date_arg: str) -> Path:
 
     if oracion_personal:
         inc_lines.append(f'#let oracion_personal = {format_typst_block(oracion_personal)}')
+
+    if eco_de_la_palabra:
+        inc_lines.append(f'#let eco_de_la_palabra = {format_typst_block(eco_de_la_palabra)}')
 
     output_path = BASE_DIR / f"{date_compact}.inc"
     with open(output_path, "w", encoding="utf-8") as f:

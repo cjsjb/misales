@@ -113,3 +113,18 @@
 
   Jesús, gracias porque sigues confiando tu viña en nuestras manos. Dame humildad para reconocer de quién viene todo y generosidad para devolverte frutos abundantes. Te alabo y te doy gracias porque todo es don y todo puede convertirse en misión. Amén.
 ]
+#let eco_de_la_palabra = [
+  El Evangelio nos deja una pregunta *¿qué estamos haciendo con todo lo que Dios ha puesto en nuestras manos?*
+
+  La vida, las personas que amamos, nuestros talentos y las oportunidades son dones de Dios. Nuestro esfuerzo tiene valor, pero al mirar atrás reconocemos que no llegamos solos: hubo manos que nos ayudaron y un Dios que nos sostuvo. Recordarlo nos hace agradecer y preguntarnos cómo compartir con otros lo que hemos recibido.
+
+  Los viñadores de la parábola se resisten a entregar los frutos. Ahí podemos reconocer una tentación muy humana: acostumbrarnos tanto a lo recibido que olvidamos agradecerlo y dejamos de compartirlo. Entonces nuestro tiempo solo alcanza para nosotros, nuestros talentos sirven únicamente a nuestros planes y el dolor ajeno empieza a parecernos lejano.
+
+  Dios espera frutos de lo que nos ha confiado. ¿Qué hicimos con nuestra capacidad de amar cuando alguien necesitó paciencia? ¿Con nuestros recursos cuando pudimos aliviar una necesidad? ¿Con nuestra voz cuando hizo falta defender a alguien? También tendremos que darle cuentas de aquello que pudimos cuidar y dejamos pasar. Son preguntas serias, pero nacen del amor de un Padre que sabe que podemos dar más de nosotros.
+
+  Quizá hoy podemos mirar nuestra vida con sinceridad, sin negar lo bueno que hemos hecho ni ocultar lo que necesitamos cambiar. Agradecer es reconocer de quién viene lo que tenemos. Dar fruto es compartirlo con generosidad y misericordia.
+
+  *Haz una pausa y mira a tu alrededor.* ¿Quién necesita hoy tu ayuda, tu escucha, tu perdón o tu misericordia? Tal vez es alguien muy cercano cuyo dolor has dejado para después. Pregúntate también: ¿qué tan agradecido eres con Dios? ¿Cómo se refleja esa gratitud en la manera en que tratas a los demás?
+
+  *Que cuando el Señor venga a pedirnos los frutos, encuentre que sus dones pasaron por nuestras manos y llegaron a otros.*
+]

@@ -101,3 +101,14 @@
 
   Dame humildad para reconocer cuando he dicho “no” con mi vida y valentía para cambiar de dirección. Jesús, quiero que mi respuesta a Ti sea verdadera. Que cuando diga «sí», ese sí pueda verse en mi manera de amar. Te alabo y te doy gracias porque nunca te cansas de darme otra oportunidad. Amén.
 ]
+#let eco_de_la_palabra = [
+  Hoy la Palabra de Dios nos invita a examinar la coherencia entre lo que decimos y lo que realmente hacemos. El profeta Ezequiel desmonta una excusa muy humana: culpar a Dios de injusticia cuando en realidad somos nosotros quienes cambiamos de camino. "Cuando el pecador se arrepiente del mal que hizo y practica la rectitud y la justicia, él mismo salva su vida" (Ez 18,27). La conversión nunca llega demasiado tarde ante Dios; lo que cierra esa puerta es nuestra propia resistencia a reconocer el error y corregir el rumbo.
+
+  Esta misma lógica se ilustra con sencillez en el Evangelio. Un padre pide a sus dos hijos que vayan a trabajar en la viña. El primero dice que no, pero después se arrepiente y va; el segundo responde con un "sí" inmediato, pero se queda de brazos cruzados. Jesús deja clara la enseñanza: "los publicanos y las prostitutas se les han adelantado en el camino del Reino de Dios" (Mt 21,31), precisamente porque, aunque partieron con un rechazo, terminaron por convertirse. Lo que agrada al Padre no es la promesa bien dicha, sino la obediencia sostenida en obras.
+
+  San Pablo, en la carta a los filipenses, nos muestra hasta dónde llega esa obediencia real: Cristo, siendo Dios, "se anonadó a sí mismo, tomando la condición de siervo… y por obediencia aceptó incluso la muerte y una muerte de cruz" (Flp 2,7-8). Ahí está el modelo perfecto de coherencia: no palabras sobre la entrega, sino la entrega misma, humilde y hasta el final.
+
+  Este mensaje nos toca de cerca. Es fácil, sobre todo para quienes recién llegan a la vida universitaria o parroquial, decir que sí a la fe, a un compromiso, a un propósito de vida, y después dejarlo a medias cuando cuesta sostenerlo en el día a día. Y también es fácil, para quien ha dicho que no en algún momento, a Dios, a la familia, a una responsabilidad, pensar que ya no hay vuelta atrás. El Evangelio de hoy desmiente ambas trampas: lo que cuenta no es el punto de partida, sino si finalmente nos ponemos en camino hacia la viña.
+
+  Que María, que respondió con un "sí" sostenido hasta el pie de la cruz, nos ayude a convertir nuestras palabras en obras y a no quedarnos nunca instalados en la comodidad de una fe solo de apariencias.
+]

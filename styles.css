@@ -185,3 +185,45 @@ h3 {
 .cubierta-frase {
   margin: 0 0 7.5rem;
 }
+
+/* Separador entre la oración personal y el eco: la línea azul con un punto en el
+ * centro del original. Es un div vacío: la línea es su propio fondo y el punto,
+ * un ::after centrado. */
+.separador {
+  height: 1px;
+  margin: 3rem 0;
+  background: var(--azul);
+  position: relative;
+}
+
+.separador::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin: -0.3rem 0 0 -0.3rem;
+  border-radius: 50%;
+  background: var(--azul);
+}
+
+/* Cabecera con icono al lado: el icono a la izquierda y el chip azul a la
+ * derecha, centrados verticalmente. El chip lo pinta la regla h3, así que aquí
+ * sólo se le quitan los márgenes. El ancho del icono va en % de la columna para
+ * que aguante en pantallas estrechas. */
+.con-icono {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+.con-icono img {
+  width: 25%;
+  height: auto;
+}
+
+.con-icono h3 {
+  margin: 0;
+}
