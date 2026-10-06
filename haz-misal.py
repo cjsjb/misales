@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-haz-misal.py - Generates .inc files and compiles missal PDFs.
+haz-misal.py - Generates .inc files and compiles missal PDFs (and, opt-in, the
+web edition of the sjb sheet as HTML).
 
 Usage:
     python3 haz-misal.py 2026-09-27
     python3 haz-misal.py 2026-09-27 --template sjb
+    python3 haz-misal.py 2026-09-27 --template web-sjb
     python3 haz-misal.py --all
 """
 
@@ -89,15 +91,45 @@ SJB_TYP_CONTENT = """#import "template-sjb.typ": render-sjb
 )
 """
 
+WEB_SJB_TYP_CONTENT = """#import "template-web-sjb.typ": render-web-sjb
+#import "common-defaults.typ": *
+#import "{inc_file}": *
+
+#render-web-sjb(
+  tiempo: tiempo,
+  domingo_num: domingo_num,
+  fecha: fecha,
+  frase: frase,
+  oracion_colecta: oracion_colecta,
+  lectura_primera_fuente: lectura_primera_fuente,
+  lectura_primera: lectura_primera,
+  salmo_fuente: salmo_fuente,
+  salmo_partitura: salmo_partitura,
+  salmo_aclamacion: salmo_aclamacion,
+  salmo_estrofas: salmo_estrofas,
+  lectura_segunda_fuente: lectura_segunda_fuente,
+  lectura_segunda: lectura_segunda,
+  aleluya_fuente: aleluya_fuente,
+  aleluya_aclamacion: aleluya_aclamacion,
+  evangelio_fuente: evangelio_fuente,
+  evangelio: evangelio,
+  oracion_delosfieles: oracion_delosfieles,
+  oracion_ofrendas: oracion_ofrendas,
+  oracion_comunion: oracion_comunion,
+)
+"""
+
+# Output name pattern, wrapper template, and export format ("pdf" or "html").
 TEMPLATES = {
-    "sjb": ("misal-sjb-{date_compact}.pdf", SJB_TYP_CONTENT),
-    "cjsjb": ("misal-cjsjb-{date_compact}.pdf", CJSJB_TYP_CONTENT),
+    "sjb": ("misal-sjb-{date_compact}.pdf", SJB_TYP_CONTENT, "pdf"),
+    "cjsjb": ("misal-cjsjb-{date_compact}.pdf", CJSJB_TYP_CONTENT, "pdf"),
+    "web-sjb": ("misal-sjb-{date_compact}.html", WEB_SJB_TYP_CONTENT, "html"),
 }
 
 def compile_template(template_name: str, inc_file_name: str, date_compact: str):
-    pdf_filename, content_template = TEMPLATES[template_name]
-    output_pdf_name = pdf_filename.format(date_compact=date_compact)
-    output_pdf_path = BASE_DIR / output_pdf_name
+    output_pattern, content_template, export_format = TEMPLATES[template_name]
+    output_name = output_pattern.format(date_compact=date_compact)
+    output_path = BASE_DIR / output_name
 
     typ_code = content_template.format(inc_file=inc_file_name)
 
@@ -107,15 +139,18 @@ def compile_template(template_name: str, inc_file_name: str, date_compact: str):
 
     try:
         cmd = ["typst", "compile"]
+        if export_format == "html":
+            # HTML export is still an experimental, feature-flagged target.
+            cmd.extend(["--features", "html", "--format", "html", "--pretty"])
         if FONTS_DIR.exists():
             cmd.extend(["--font-path", str(FONTS_DIR)])
-        cmd.extend([str(tmp_path), str(output_pdf_path)])
+        cmd.extend([str(tmp_path), str(output_path)])
 
         res = subprocess.run(cmd, cwd=BASE_DIR, capture_output=True, text=True)
         if res.returncode != 0:
-            print(f"Error compiling {output_pdf_name}:\n{res.stderr}", file=sys.stderr)
+            print(f"Error compiling {output_name}:\n{res.stderr}", file=sys.stderr)
             return False
-        print(f"Successfully compiled: {output_pdf_name}")
+        print(f"Successfully compiled: {output_name}")
         return True
     finally:
         if tmp_path.exists():
@@ -129,6 +164,8 @@ def build_for_date(date_str: str, template: str = "all") -> bool:
         return False
 
     inc_path = generate_inc_file(date_str)
+    # "all" means the printable missals; the web export stays opt-in
+    # (--template web-sjb) until it has proven itself.
     templates_to_compile = ["sjb", "cjsjb"] if template == "all" else [template]
     success = True
     for t_name in templates_to_compile:
@@ -148,14 +185,17 @@ def get_all_dates_from_calendar() -> list[str]:
     return dates
 
 def main():
-    parser = argparse.ArgumentParser(description="Build missal PDFs for a given date or all dates in calendar.")
+    parser = argparse.ArgumentParser(description="Build missals for a given date or all dates in calendar.")
     parser.add_argument("date", nargs="?", help="Date in YYYY-MM-DD or YYYYMMDD format (e.g. 2026-09-27)")
     parser.add_argument("--all", action="store_true", help="Build missals for all dates in calendario.csv")
     parser.add_argument(
         "--template",
-        choices=["sjb", "cjsjb", "all"],
+        choices=["sjb", "cjsjb", "web-sjb", "all"],
         default="all",
-        help="Template to compile (default: all)",
+        help=(
+            "Template to compile: sjb or cjsjb (PDF), web-sjb (HTML), "
+            "all = both printable missals (default: all)"
+        ),
     )
     args = parser.parse_args()
 

@@ -20,7 +20,18 @@
   partes.join("").starts-with("Todos:")
 }
 
-#let con_respuestas(contenido) = {
+// El aspecto de cada respuesta lo pone respuesta_fn. En papel es respuesta()
+// (text(fill:) + weight:); en la web es una variante que emite una clase,
+// porque la exportación a HTML descarta el fill y el weight y el párrafo sale
+// pelado. Se pasa desde la plantilla en vez de decidirlo aquí mirando el
+// destino con target() a propósito: target() y el módulo html sólo existen si
+// se compila con --features html, y sin esa opción nombrar html es un error de
+// compilación («cannot access variable `html` because the `html` feature is not
+// enabled»). Este archivo también lo compilan las plantillas de papel, que no
+// pasan esa opción, así que la diferencia por destino tiene que elegirse desde
+// la plantilla. La agrupación por párrafos, que es lo que se repetía, sí es
+// común.
+#let con_respuestas(contenido, respuesta_fn: respuesta) = {
   if contenido == none { return none }
   let hijos = if contenido.has("children") { contenido.children } else { (contenido,) }
   let parrafos = ()
@@ -41,7 +52,7 @@
     let cuerpo = parrafo.join()
     if i > 0 { salida.push(parbreak()) }
     if empieza_con_todos(parrafo) {
-      salida.push(respuesta(cuerpo))
+      salida.push(respuesta_fn(cuerpo))
     } else {
       salida.push(cuerpo)
     }

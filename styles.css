@@ -1,0 +1,186 @@
+/* styles.css — presentación de la edición web del misal (SJB).
+ *
+ * Typst no emite CSS: este archivo es el único sitio donde se define el aspecto.
+ * Las clases las emite template-web-sjb.typ (.cubierta, .cubierta-titulo, …).
+ * Los tokens de :root (--azul, --fuente-texto, --fuente-titulos) salen del
+ * diseño de Canva, con las tipografías cambiadas a propósito:
+ *   Avenir LT Pro (texto)  -> Kumbh Sans
+ *   Gotham (títulos)       -> Montserrat
+ *
+ * Tamaños: se trasladan del diseño con un factor, --escala, porque la página de
+ * Canva mide 1024 px de ancho y esta columna 40rem (640 px) cuando la ventana
+ * es ancha. Con el factor actual (0,68) salen las dos cifras que gobiernan la
+ * página:
+ *   45,33 px de texto      -> 30,8px (1,93rem)
+ *   61,33 px de encabezado -> 41,7px (2,61rem)
+ * En ventanas estrechas (móvil, o dos ventanas en paralelo) los dos bajan con
+ * clamp() en vw, manteniendo la misma proporción 1,35 del diseño; a partir de
+ * los 40rem de columna manda el tamaño del diseño. Al calibrar hay que mover a
+ * la vez --escala, los dos coeficientes en vw y los dos suelos en rem; el título
+ * de la cubierta (.cubierta-titulo) lleva su propio clamp, aparte.
+ */
+
+/* ---------------------------------------------------------------------------
+ * Tipografías. Los archivos viven en .fonts/, el mismo directorio que usa la
+ * edición impresa (haz-misal.py pasa --font-path .fonts), así que no hay que
+ * descargar nada ni depender de un CDN.
+ *
+ * Kumbh Sans viene como fuente variable: un solo archivo cubre todos los pesos.
+ * Montserrat viene en archivos estáticos; se registran los dos que usa la
+ * página (400 y 700) y se añaden más si hacen falta.
+ *
+ * Ojo al publicar: .fonts/ empieza por punto y hay servidores que no publican
+ * esos directorios (GitHub Pages con Jekyll, por ejemplo). En el despliegue
+ * habrá que llevar la carpeta tal cual junto al HTML, o añadir .nojekyll.
+ * -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Kumbh Sans";
+  src: url(".fonts/KumbhSans-VariableFont_YOPQ,wght.ttf") format("truetype-variations"),
+       url(".fonts/KumbhSans-VariableFont_YOPQ,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(".fonts/Montserrat-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(".fonts/Montserrat-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --ancho-lectura: 40rem;   /* longitud de línea cómoda para leer en pantalla */
+  --escala: 0.68;           /* calibración: 1024 px de página de diseño -> 640 px de columna */
+  --tinta: #1a1a1a;
+  --papel: #ffffff;
+  --azul: #294a82;          /* rgb(41, 74, 130): fondo de los encabezados */
+  --azul-claro: #5983b0;    /* rgb(89, 131, 176): respuesta() en la edición impresa */
+  --fuente-texto: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fuente-titulos: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0 auto;
+  max-width: var(--ancho-lectura);
+  /* Márgenes: el diseño deja ~13% a cada lado, pero en pantalla quedaban más
+   * anchos que el original; de ahí 6vw con techo de 3rem (la columna ya está
+   * limitada por --ancho-lectura). El bloque de arriba es el 5% del diseño. */
+  padding-block: 2.5rem 4rem;
+  padding-inline: clamp(1.25rem, 6vw, 3rem);
+  color: var(--tinta);
+  background: var(--papel);
+  font-family: var(--fuente-texto);
+  font-size: clamp(1.15rem, 4.45vw, calc(45.3333px * var(--escala)));
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+p {
+  margin: 0 0 0.9em;
+  /* El diseño justifica el texto corrido. Con hyphens la justificación no
+   * abre esos huecos enormes entre palabras que se ven en el original. */
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Los bloques escritos a mano en la plantilla (el enlace a esta hoja, la
+ * cubierta) van separados por saltos de párrafo, que pueden dejar <p> vacíos
+ * de relleno: que no abran hueco. */
+p:empty {
+  margin: 0;
+}
+
+/* Respuestas de la asamblea («Todos: …», «Te alabamos, Señor.», «Amén.»).
+ * En la edición impresa las pinta respuesta() con text(fill:) + weight:, pero
+ * Typst descarta ese estilo al exportar a HTML, así que la clase .respuesta
+ * la emite template-web-sjb.typ y el aspecto se define aquí. */
+.respuesta {
+  color: var(--azul-claro);
+  font-weight: 700;
+}
+
+/* Encabezados de sección (los «== …» de la plantilla). Ojo con el nivel: Typst
+ * los exporta como <h3>, porque reserva un nivel por encima.
+ * Texto blanco en mayúsculas sobre una etiqueta azul redondeada; las
+ * mayúsculas son de aquí (text-transform), no del contenido.
+ * Comparado con el render de Canva: una sola línea, negrita y con las letras
+ * apretadas (el token de 0,16em del diseño NO es el interletrado: el original
+ * las junta), y un relleno pequeño para que la etiqueta abrace el texto.
+ * Mandos: el azul -> --azul · el redondeo -> border-radius (999px = cápsula) ·
+ * etiqueta o banda -> display: block si debe ir de lado a lado. */
+h3 {
+  display: inline-block;
+  margin: 1.6rem 0 0.6rem;
+  padding: 0.15em 0.35em;
+  border-radius: 0.5rem;
+  background: var(--azul);
+  color: #ffffff;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(1.55rem, 6.1vw, calc(61.3333px * var(--escala)));  /* 61,33 px del diseño */
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-transform: uppercase;
+}
+
+/* Cubierta: antes se alineaba con #align(), que no sobrevive a la exportación. */
+.cubierta {
+  margin: 0 0 2.5rem;
+  text-align: center;
+}
+
+.cubierta img {
+  display: block;        /* Typst ya emite las imágenes así; explícito por claridad */
+  max-width: 100%;
+  height: auto;
+  /* Los <img> son bloques, así que text-align: center no los mueve: el centrado
+   * lo hacen los márgenes automáticos. */
+  margin: 2.5rem auto;
+}
+
+.cubierta p {
+  text-align: inherit;   /* el justificado de p no debe pisar el centrado */
+}
+
+.cubierta-titulo {
+  /* Mismo chip azul que los encabezados de sección (h3): fondo --azul, texto
+   * blanco y esquinas redondeadas, en una sola etiqueta que cubre todo el texto
+   * aunque ocupe varias líneas. inline-block (y no block) es lo que hace que el
+   * text-align: center de .cubierta lo centre. Si cambia el chip de h3, cambia
+   * también aquí. */
+  display: inline-block;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.15em 0.35em;
+  border-radius: 0.5rem;
+  background: var(--azul);
+  color: #ffffff;
+  font-family: var(--fuente-titulos);
+  /* 5% del ancho de página, que es lo que usa la hoja impresa (25pt sobre 504pt
+   * de ancho); a 640px son 32px. */
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cubierta-fecha {
+  margin: 0 0 5rem;   /* pegada al título, con aire antes de la frase */
+}
+
+.cubierta-frase {
+  margin: 0 0 7.5rem;
+}
