@@ -25,6 +25,23 @@
 // con_respuestas(), que recibe esta función.
 #let respuesta_web(texto) = html.elem("span", attrs: (class: "respuesta"))[#texto]
 
+// Secciones de reflexión del final de la hoja (eco, entre líneas sagradas, …):
+// separador, cabecera con el icono al lado y el texto. Están en una función
+// porque el bloque se repite; el chip lo pinta la regla h3 de styles.css y el
+// <h3> se emite a mano porque tiene que quedar dentro del contenedor flex,
+// junto al icono.
+#let bloque_reflexion(icono, titulo, contenido) = [
+  #html.elem("div", attrs: (class: "separador"))
+
+  #html.elem("div", attrs: (class: "con-icono"))[
+    #image(icono)
+
+    #html.elem("h3")[#titulo]
+  ]
+
+  #contenido
+]
+
 #let render-web-sjb(
   tiempo: "Ordinario",
   domingo_num: 0,
@@ -50,6 +67,7 @@
   oracion_comunion: none,
   oracion_personal: none,
   eco_de_la_palabra: none,
+  entre_lineas_sagradas: none,
 ) = {
   set text(lang: "es")
 
@@ -206,18 +224,14 @@
       #oracion_personal
     ]
 
-    // Eco de la palabra: separador, cabecera con icono al lado y el texto de
-    // reflexión. Como la oración personal, sólo existe en algunos domingos.
+    // Secciones de reflexión: sólo existen en algunos domingos, así que cuando
+    // faltan se oculta el bloque entero, separador y cabecera incluidos.
     #if eco_de_la_palabra != none [
-      #html.elem("div", attrs: (class: "separador"))
+      #bloque_reflexion("icono-ecodelapalabra.webp", "Eco de la palabra", eco_de_la_palabra)
+    ]
 
-      #html.elem("div", attrs: (class: "con-icono"))[
-        #image("icono-ecodelapalabra.webp")
-
-        #html.elem("h3")[Eco de la palabra]
-      ]
-
-      #eco_de_la_palabra
+    #if entre_lineas_sagradas != none [
+      #bloque_reflexion("icono-entrelineassagradas.webp", "Entre líneas sagradas", entre_lineas_sagradas)
     ]
 
     = Rito de conclusión

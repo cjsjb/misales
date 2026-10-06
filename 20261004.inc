@@ -128,3 +128,22 @@
 
   *Que cuando el Señor venga a pedirnos los frutos, encuentre que sus dones pasaron por nuestras manos y llegaron a otros.*
 ]
+#let entre_lineas_sagradas = [
+  *La vid en la Biblia: símbolo de la gracia y la respuesta humana*
+
+  La primera mención de la vid en la Escritura aparece tras el diluvio, cuando Noé planta una viña (Gn 9,20). No es un dato agrícola sin más: así como el olivo anunció la nueva creación, la viña expresa el deseo de reconstruir la vida y devolver la alegría perdida. Noé, primer viticultor, experimenta los efectos del vino (Gn 9,21), recordando que los dones de Dios requieren responsabilidad.
+
+  En Palestina, las viñas se cultivaban en laderas con bancales de piedra, adaptadas a terrenos secos y arenosos. Sus raíces profundas buscaban alimento en las grietas, mientras las piedras pequeñas retenían humedad (cf. Is 5,2). Las viñas se protegían con cercas y muros contra animales e intrusos (cf. Mt 21,33), y el vigilante habitaba en cabañas durante el verano.
+
+  De estas realidades surge un rico simbolismo: la viña representa al pueblo elegido, cuidado con amor por Yahvé. Isaías canta este amor en el “*Canto de la Viña*” (Is 5,1‑7): Dios prepara con esmero una viña fértil, la protege y espera frutos dulces. Cada detalle refleja la gracia divina: la tierra fértil es la elección de Israel, la cerca la protección, la torre la vigilancia, el lagar la esperanza del fruto.
+
+  Sin embargo, la viña produce uvas agrias. El problema no está en Dios, sino en la respuesta del pueblo. La pregunta divina «_¿Qué más pude hacer por mi viña que yo no lo hiciera?_» (Is 5,4) revela el dolor de un amor no correspondido. Así, la vid se convierte en símbolo teológico: Israel fracasa no por falta de cuidado, sino por no responder a la gracia recibida.
+
+  Jesús, en clara referencia al cántico de la viña de Isaías, construye su propia parábola que ofrece su visión del pasado y futuro del pueblo elegido. Todo judío advertía que la parábola designaba a Israel alegóricamente.
+
+  La intención es poner de relieve las continuas tentativas de Dios por mantener al pueblo dentro de las condiciones de la Alianza mediante el ministerio de los profetas y que fueron muchas veces objeto de malos tratos y de la misma muerte.
+
+  Con esta parábola, *Jesús muestra claramente su conciencia de ser el Enviado de Dios* que viene como el último de los profetas, cuyo destino es la persecución y la muerte en manos de aquellos a quienes había venido a salvar. “De este modo, y por primera vez en público, Jesús anuncia su muerte violenta y al mismo tiempo dirige un último llamado a los jefes judíos a fin de que no cometan lo irreparable, lo cual traerá consigo el castigo divino” (E. M. Uricchio y C. M. Stano).
+
+  *La historia posterior de Jesús y sus parábolas pone de manifiesto que la muerte del Hijo marca, no el final, sino el inicio de una nueva etapa del designio de Dios.* A partir de Jesús, la vid verdadera, rechazada por los judíos, crece la viña del Señor, se expande y cubre, no ya en los montes de Palestina, sino en el mundo entero, ramificándose en cada pueblo y nación, haciendo de judíos y gentiles una sola comunidad en comunión unos con otros, todos con el Padre, en acción de gracias y frutos de justicia por el Espíritu de Dios que habita en ellos.
+]
