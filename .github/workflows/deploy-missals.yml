@@ -11,6 +11,9 @@ on:
       - 'template-*.typ'
       - 'common*.typ'
       - '*.py'
+      - 'styles.css'
+      - 'fonts/**'
+      - '*.png'
       - '.github/workflows/deploy-missals.yml'
   workflow_dispatch:
 
@@ -43,7 +46,7 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Build all missal PDFs
+      - name: Build all missals (PDF + web edition)
         run: python3 haz-misal.py --all
 
       - name: Build web depot index

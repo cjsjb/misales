@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-haz-misal.py - Generates .inc files and compiles missal PDFs (and, opt-in, the
-web edition of the sjb sheet as HTML).
+haz-misal.py - Generates .inc files and compiles the missals: the two printable
+PDFs and the web edition (HTML) of the sjb sheet.
 
 Usage:
     python3 haz-misal.py 2026-09-27
     python3 haz-misal.py 2026-09-27 --template sjb
     python3 haz-misal.py 2026-09-27 --template web-sjb
-    python3 haz-misal.py --all
+    python3 haz-misal.py --all          # every date, every template
 """
 
 import argparse
@@ -164,9 +164,9 @@ def build_for_date(date_str: str, template: str = "all") -> bool:
         return False
 
     inc_path = generate_inc_file(date_str)
-    # "all" means the printable missals; the web export stays opt-in
-    # (--template web-sjb) until it has proven itself.
-    templates_to_compile = ["sjb", "cjsjb"] if template == "all" else [template]
+    # "all" is everything the site publishes: the two printable missals plus the
+    # web edition. --template web-sjb still builds only the HTML.
+    templates_to_compile = ["sjb", "cjsjb", "web-sjb"] if template == "all" else [template]
     success = True
     for t_name in templates_to_compile:
         if not compile_template(t_name, inc_path.name, date_compact):
@@ -194,7 +194,7 @@ def main():
         default="all",
         help=(
             "Template to compile: sjb or cjsjb (PDF), web-sjb (HTML), "
-            "all = both printable missals (default: all)"
+            "all = every template (default: all)"
         ),
     )
     args = parser.parse_args()

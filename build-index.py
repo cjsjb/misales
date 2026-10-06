@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-build-index.py - Scans generated PDF missals and builds a public web portal (public/index.html).
+build-index.py - Scans generated missals (PDF and web editions), builds the public
+web portal (public/index.html) and copies into public/ everything the site needs.
 """
 
 import csv
@@ -11,6 +12,16 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.resolve()
 PUBLIC_DIR = BASE_DIR / "public"
 CALENDARIO_PATH = BASE_DIR / "calendario.csv"
+FONTS_DIR = BASE_DIR / "fonts"
+
+# Fonts the web edition loads (the @font-face blocks in styles.css). The site gets
+# its own copy in public/fonts/, keeping the same relative paths, so the page
+# looks the same in the repository and published.
+WEB_FONTS = (
+    "KumbhSans-VariableFont_YOPQ,wght.ttf",
+    "Montserrat-Regular.otf",
+    "Montserrat-Bold.otf",
+)
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="es">
@@ -109,6 +120,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     .btn-cjsjb:hover {{
       background-color: #047857;
     }}
+    .btn-web {{
+      background-color: #5983b0;
+      color: white;
+    }}
+    .btn-web:hover {{
+      background-color: #42688f;
+    }}
     footer {{
       text-align: center;
       margin-top: 3rem;
@@ -163,6 +181,7 @@ def main():
     calendar_data.sort(key=lambda x: x.get("fecha", "").strip(), reverse=True)
 
     cards_html = []
+    web_published = False
 
     for row in calendar_data:
         formatted_date = row["fecha"].strip()
@@ -187,6 +206,15 @@ def main():
             shutil.copy2(cjsjb_pdf_src, PUBLIC_DIR / cjsjb_pdf_name)
             buttons.append(f'<a href="{cjsjb_pdf_name}" class="btn btn-cjsjb" target="_blank">📄 Misal CJSJB</a>')
 
+        # Web edition: the same Sunday as the SJB sheet, tuned for the screen.
+        # "haz-misal.py --all" builds it for every date.
+        web_html_name = f"misal-sjb-{date_compact}.html"
+        web_html_src = BASE_DIR / web_html_name
+        if web_html_src.exists():
+            shutil.copy2(web_html_src, PUBLIC_DIR / web_html_name)
+            buttons.append(f'<a href="{web_html_name}" class="btn btn-web" target="_blank">🌐 Misal SJB (web)</a>')
+            web_published = True
+
         if buttons:
             cards_html.append(CARD_TEMPLATE.format(
                 date_formatted=html.escape(formatted_date),
@@ -195,6 +223,17 @@ def main():
                 ciclo=html.escape(ciclo),
                 buttons="\n    ".join(buttons),
             ))
+
+    # The web edition loads styles.css and its fonts, so the site needs its own
+    # copy of both next to the HTML. The relative paths are the same in the
+    # repository and in public/, so styles.css needs no rewriting.
+    if web_published:
+        shutil.copy2(BASE_DIR / "styles.css", PUBLIC_DIR / "styles.css")
+        fonts_dest = PUBLIC_DIR / "fonts"
+        fonts_dest.mkdir(exist_ok=True)
+        for font in WEB_FONTS:
+            shutil.copy2(FONTS_DIR / font, fonts_dest / font)
+        print(f"Published web assets: styles.css + fonts/ ({len(WEB_FONTS)} files)")
 
     full_html = HTML_TEMPLATE.format(cards="\n".join(cards_html))
     index_path = PUBLIC_DIR / "index.html"
