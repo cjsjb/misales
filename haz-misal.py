@@ -21,7 +21,7 @@ from generate_inc import generate_inc_file, normalize_date
 
 BASE_DIR = Path(__file__).parent.resolve()
 CALENDARIO_PATH = BASE_DIR / "calendario.csv"
-FONTS_DIR = BASE_DIR / ".fonts"
+FONTS_DIR = BASE_DIR / "fonts"
 
 CJSJB_TYP_CONTENT = """#import "template-cjsjb.typ": render-cjsjb
 #import "common-defaults.typ": *

@@ -21,23 +21,24 @@
  */
 
 /* ---------------------------------------------------------------------------
- * Tipografías. Los archivos viven en .fonts/, el mismo directorio que usa la
- * edición impresa (haz-misal.py pasa --font-path .fonts), así que no hay que
+ * Tipografías. Los archivos viven en fonts/, el mismo directorio que usa la
+ * edición impresa (haz-misal.py pasa --font-path fonts), así que no hay que
  * descargar nada ni depender de un CDN.
  *
  * Kumbh Sans viene como fuente variable: un solo archivo cubre todos los pesos.
  * Montserrat viene en archivos estáticos; se registran los dos que usa la
  * página (400 y 700) y se añaden más si hacen falta.
  *
- * Ojo al publicar: .fonts/ empieza por punto y hay servidores que no publican
- * esos directorios (GitHub Pages con Jekyll, por ejemplo). En el despliegue
- * habrá que llevar la carpeta tal cual junto al HTML, o añadir .nojekyll.
- * -------------------------------------------------------------------------- */
+ * El directorio se llama fonts/ y no .fonts/ a propósito: con punto delante,
+ * GitHub Actions no lo sube al sitio publicado (actions/upload-pages-artifact
+ * excluye ficheros y directorios ocultos desde su versión 4). build-index.py
+ * copia la carpeta a public/fonts/, así que estas rutas valen igual en el
+ * repositorio y en el sitio. */
 
 @font-face {
   font-family: "Kumbh Sans";
-  src: url(".fonts/KumbhSans-VariableFont_YOPQ,wght.ttf") format("truetype-variations"),
-       url(".fonts/KumbhSans-VariableFont_YOPQ,wght.ttf") format("truetype");
+  src: url("fonts/KumbhSans-VariableFont_YOPQ,wght.ttf") format("truetype-variations"),
+       url("fonts/KumbhSans-VariableFont_YOPQ,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -45,7 +46,7 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url(".fonts/Montserrat-Regular.otf") format("opentype");
+  src: url("fonts/Montserrat-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -53,7 +54,7 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url(".fonts/Montserrat-Bold.otf") format("opentype");
+  src: url("fonts/Montserrat-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;

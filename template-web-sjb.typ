@@ -5,7 +5,7 @@
 // a render-web-sjb(). Ejemplo de compilación:
 //
 //   typst compile --features html --format html --pretty \
-//     --font-path .fonts envoltorio.typ salida.html
+//     --font-path fonts envoltorio.typ salida.html
 //
 // Diferencias con template-sjb.typ: sólo lo que tiene sentido en papel.
 //   - Sin #set page (tamaño, márgenes, numeración) ni #pagebreak(): la
