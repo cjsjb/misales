@@ -87,10 +87,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     .date-badge {{
       background: #e0f2fe;
       color: #0369a1;
-      padding: 0.25rem 0.6rem;
+      padding: 0.25rem 0.85rem;
       border-radius: 9999px;
       font-size: 0.85rem;
       font-weight: 500;
+      /* «Ciclo A» cabe en una línea: ni se parte (nowrap) ni la cabecera lo
+       * estrecha cuando el título es largo, que es lo que lo partía. */
+      white-space: nowrap;
+      flex-shrink: 0;
     }}
     .downloads {{
       display: flex;
@@ -160,7 +164,8 @@ CARD_TEMPLATE = """
 <div class="date-card">
   <div class="date-header">
     <div class="date-title">{date_formatted} — {dia_semana} {domingo_num} del Tiempo {tiempo}</div>
-    <div class="date-badge">Ciclo {ciclo}</div>
+    <!-- Espacio duro: «Ciclo A» no se parte en dos líneas. -->
+    <div class="date-badge">Ciclo&nbsp;{ciclo}</div>
   </div>
   <div class="downloads">
     {buttons}
