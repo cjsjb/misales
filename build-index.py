@@ -9,7 +9,7 @@ import html
 import shutil
 from pathlib import Path
 
-from generate_inc import dia_semana_es
+from generate_inc import dia_semana_es, romano
 
 BASE_DIR = Path(__file__).parent.resolve()
 PUBLIC_DIR = BASE_DIR / "public"
@@ -163,7 +163,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 CARD_TEMPLATE = """
 <div class="date-card">
   <div class="date-header">
-    <div class="date-title">{date_formatted} — {dia_semana} {domingo_num} del Tiempo {tiempo}</div>
+    <div class="date-title">{date_formatted} — {dia_semana} {domingo_romano} del Tiempo {tiempo}</div>
     <!-- Espacio duro: «Ciclo A» no se parte en dos líneas. -->
     <div class="date-badge">Ciclo&nbsp;{ciclo}</div>
   </div>
@@ -199,6 +199,9 @@ def main():
         # El día de la semana sale de la fecha: la hoja de un lunes no puede
         # anunciarse como domingo.
         dia_semana = dia_semana_es(formatted_date)
+        # El número es el del domingo de esa semana, y va en cifras romanas como
+        # en las cubiertas: «XXVII», no «27».
+        domingo_romano = romano(int(domingo_num))
 
         buttons = []
 
@@ -229,7 +232,7 @@ def main():
             cards_html.append(CARD_TEMPLATE.format(
                 date_formatted=html.escape(formatted_date),
                 dia_semana=html.escape(dia_semana),
-                domingo_num=html.escape(str(domingo_num)),
+                domingo_romano=html.escape(domingo_romano),
                 tiempo=html.escape(tiempo),
                 ciclo=html.escape(ciclo),
                 buttons="\n    ".join(buttons),

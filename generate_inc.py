@@ -148,6 +148,25 @@ def dia_semana_es(formatted_date: str) -> str:
     dia = DIAS_SEMANA[datetime.strptime(formatted_date, "%Y-%m-%d").weekday()]
     return DIAS_SEMANA_CON_TILDE.get(dia, dia).capitalize()
 
+# Números romanos: 27 → «XXVII», como en las cubiertas.
+ROMANOS = ((10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I"))
+
+def romano(numero: int) -> str:
+    """
+    Returns the number in Roman numerals: 27 -> «XXVII», the way the covers print
+    the Sunday of the liturgical year.
+
+    Only the tens up to 39 are needed for the Sundays of the year; the pairs go
+    in descending order so the subtractive forms come out right (29 -> «XXIX»).
+    """
+    resultado = ""
+    resto = numero
+    for valor, letra in ROMANOS:
+        while resto >= valor:
+            resultado += letra
+            resto -= valor
+    return resultado
+
 def find_liturgia_md(formatted_date: str, ciclo: str, tiempo: str, numero: int) -> Path:
     """
     Returns the .md of the day's liturgy: <ciclo>-<tiempo>-<numero>-<weekday>.md.
