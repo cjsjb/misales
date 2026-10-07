@@ -31,7 +31,7 @@ def normalize_date(date_str: str) -> tuple[str, str]:
 def load_calendar(formatted_date: str) -> dict:
     """
     Looks up row in calendario.csv matching date.
-    Returns dict with keys: fecha, ciclo, tiempo, numero, ocasion, color.
+    Returns dict with keys: fecha, ciclo, tiempo, numero.
     """
     if not CALENDARIO_PATH.exists():
         raise FileNotFoundError(f"Calendar file not found: {CALENDARIO_PATH}")
@@ -194,6 +194,27 @@ def resolver_color(color_md: str, tiempo: str) -> str:
 
     return COLORES_TIEMPO.get(tiempo.strip().lower(), COLOR_POR_DEFECTO)
 
+# Ocasiones que no se dicen en la cubierta: el título ya nombra el día
+# ("XXVII DOMINGO DEL TIEMPO ORDINARIO") o no hay celebración que anunciar.
+OCASIONES_ORDINARIAS = ("feria", "domingo")
+
+def resolver_ocasion(ocasion_md: str) -> str | None:
+    """
+    Returns the occasion to print under the cover date, or None when there is
+    nothing to say.
+
+    Any word carrying a colon is dropped — the rank goes marked that way
+    ("Memoria:", "Fiesta:", "Solemnidad:") and the cover names the celebration,
+    not its degree. Ordinary days say nothing.
+    """
+    # Toda palabra con dos puntos se cae: "Memoria: Santa María Faustina
+    # Kowalska" se lee "Santa María Faustina Kowalska".
+    texto = " ".join(p for p in ocasion_md.split() if ":" not in p).strip()
+    if not texto or texto.lower() in OCASIONES_ORDINARIAS:
+        return None
+
+    return texto
+
 def generate_inc_file(date_arg: str) -> Path:
     formatted_date, date_compact = normalize_date(date_arg)
     cal = load_calendar(formatted_date)
@@ -232,6 +253,10 @@ def generate_inc_file(date_arg: str) -> Path:
     color_md = liturgia_sections.get("Color", "")
     color_liturgico = resolver_color(color_md, cal["tiempo"])
 
+    # La ocasión también es opcional: se calla cuando es un día ordinario o
+    # cuando la liturgia no la trae.
+    ocasion = resolver_ocasion(liturgia_sections.get("Ocasión", ""))
+
     lectura_primera_fuente, lectura_primera = parse_reading_section(liturgia_sections.get("Primera lectura", ""))
     lectura_segunda_fuente, lectura_segunda = parse_reading_section(liturgia_sections.get("Segunda lectura", ""))
     evangelio_fuente, evangelio = parse_reading_section(liturgia_sections.get("Evangelio", ""))
@@ -250,6 +275,10 @@ def generate_inc_file(date_arg: str) -> Path:
     inc_lines.append(f'#let domingo_num = {domingo_num}')
     inc_lines.append(f'#let fecha = "{formatted_date}"')
     inc_lines.append(f'#let frase = "{frase}"')
+    if ocasion:
+        inc_lines.append(f'#let ocasion = "{ocasion}"')
+    else:
+        inc_lines.append("#let ocasion = none")
     inc_lines.append(f'#let color_liturgico = "{color_liturgico}"')
     inc_lines.append("")
 

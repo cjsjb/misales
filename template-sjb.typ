@@ -51,6 +51,7 @@
   fecha: none,
   hora: none,
   frase: none,
+  ocasion: none,
   color_liturgico: none,
   oracion_colecta: none,
   lectura_primera_fuente: none,
@@ -174,6 +175,12 @@
       ]
 
       #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#fecha_larga]
+
+      // La ocasión va en la línea siguiente y en negro: el color litúrgico lo
+      // lleva la fecha. generate_inc.py no la trae si el día es ordinario.
+      #if ocasion != none [
+        #text(font: ("Montserrat"), size: 14pt, fill: black)[#ocasion]
+      ]
 
       #v(5em)
 

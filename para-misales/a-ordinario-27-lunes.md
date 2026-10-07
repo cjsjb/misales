@@ -1,6 +1,6 @@
 # Ocasión
 
-Memoria Santa María Faustina Kowalska
+Memoria: Santa María Faustina Kowalska
 
 # Color
 

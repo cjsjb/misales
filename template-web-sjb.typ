@@ -49,6 +49,7 @@
   fecha: none,
   hora: none,
   frase: none,
+  ocasion: none,
   color_liturgico: none,
   oracion_colecta: none,
   lectura_primera_fuente: none,
@@ -144,6 +145,13 @@
       // pinta en negro.
       #let clase_fecha = if color_liturgico == none { "cubierta-fecha" } else { "cubierta-fecha color-" + color_liturgico }
       #html.elem("p", attrs: (class: clase_fecha))[#fecha_larga]
+
+      // La ocasión va en la línea siguiente; en negro y con su tamaño la pinta
+      // styles.css (.cubierta-ocasion). generate_inc.py no la trae si el día es
+      // ordinario.
+      #if ocasion != none [
+        #html.elem("p", attrs: (class: "cubierta-ocasion"))[#ocasion]
+      ]
 
       #html.elem("p", attrs: (class: "cubierta-frase"))[#emph(frase)]
 

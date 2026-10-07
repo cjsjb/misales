@@ -5,6 +5,7 @@
 #let fecha = none
 #let hora = none
 #let frase = none
+#let ocasion = none
 #let color_liturgico = none
 #let canto_entrada = none
 #let canto_sennortenpiedad = none

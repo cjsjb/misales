@@ -2,6 +2,7 @@
 #let domingo_num = 27
 #let fecha = "2026-10-04"
 #let frase = "¿Cómo puedes reconocer que la viña es de Dios y no tuya?"
+#let ocasion = none
 #let color_liturgico = "verde"
 
 #let monicion_entrada = [Dios nos ha confiado una viña: nuestra vida, nuestra comunidad y este mundo. Hoy preguntémonos con sinceridad: ¿qué frutos estamos entregando con todo lo que hemos recibido?]

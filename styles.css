@@ -186,6 +186,20 @@ h3 {
   margin: 0 0 5rem;   /* pegada al título, con aire antes de la frase */
 }
 
+/* Con ocasión debajo de la fecha, el aire va después de la ocasión y no entre
+ * las dos. Sin ocasión, la fecha se queda con sus 5rem. */
+.cubierta-fecha:has(+ .cubierta-ocasion) {
+  margin-bottom: 0.5rem;
+}
+
+.cubierta-ocasion {
+  /* La ocasión va en negro (el color litúrgico lo lleva la fecha) y menor que
+   * ella: 2.8vw ≈ los 14pt de la hoja impresa, que usa 25pt por cada 5vw. */
+  margin: 0 0 5rem;
+  color: var(--negro);
+  font-size: clamp(0.95rem, 2.8vw, 1.2rem);
+}
+
 /* Color litúrgico de la fecha: la clase la emite template-web-sjb.typ con el
  * nombre que resuelve generate_inc.py (la sección `Color` de la liturgia o, si
  * falta, el tiempo litúrgico). El blanco se pinta en negro: sobre blanco no se
