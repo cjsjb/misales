@@ -115,8 +115,8 @@ def avisar_de_lo_que_sobra(fechas: list[str], compacto: str) -> list[str]:
 def escribir_dia(fecha: str, indice: int, compacto: str) -> Path:
     """
     Writes the .typ of one day: the daily wrapper, asking the template for the
-    date separator on every day but the first (the cover already carries its
-    date).
+    date separator, which every day carries — the first one included, right after
+    the cover.
 
     Returns the path of the generated file.
     """
@@ -124,14 +124,19 @@ def escribir_dia(fecha: str, indice: int, compacto: str) -> Path:
     inc_path = generate_inc_file(fecha)
 
     # El separador lo pinta la plantilla, dentro de su propio ámbito de página:
-    # aquí sólo se dice si este día lo lleva. Nada de saltos ni de fecha sueltos
-    # en el envoltorio, que saldrían con las propiedades de página por omisión.
+    # aquí sólo se dice que lo lleva. Lo llevan todos los días, también el
+    # primero: la portada abre el cuaderno y el día 1 abre con su separador, como
+    # los demás. Nada de saltos ni de fecha sueltos en el envoltorio, que saldrían
+    # con las propiedades de página por omisión.
     # Los ajustes de página tampoco van aquí: los incluye el maestro una sola vez,
     # porque cada `set page` que entra en vigor abre página nueva.
     typ_code = haz_misal.SJB_TYP_CONTENT.format(
         inc_file=inc_path.name,
         portada=haz_misal.typst_bool(portada),
-        separador=haz_misal.typst_bool(not portada),
+        # La portada del cuaderno es la del primer día: sólo ése dice «Misal
+        # Mensual» y el mes.
+        mensual=haz_misal.typst_bool(portada),
+        separador=haz_misal.typst_bool(True),
         ajustes="",
     )
 

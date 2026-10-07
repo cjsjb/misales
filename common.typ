@@ -115,9 +115,11 @@
 // plantilla, porque la usan la cubierta de papel, la de la web y el separador
 // del misal mensual; antes estaba copiada en las dos plantillas.
 #let dias_es = ("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+// Con mayúscula, que es como sale en la portada del mensual; quien los quiera en
+// minúscula —dentro de una frase— los pasa por lower().
 #let meses_es = (
-  "enero", "febrero", "marzo", "abril", "mayo", "junio",
-  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
 )
 
 #let fecha_dt(fecha) = {
@@ -141,7 +143,7 @@
   (
     dias_es.at(d.weekday() - 1)
       + " " + str(d.day())
-      + " de " + meses_es.at(d.month() - 1)
+      + " de " + lower(meses_es.at(d.month() - 1))
       + " de " + str(d.year())
   )
 }
@@ -192,8 +194,14 @@
 #let fecha_dia_mes(fecha) = {
   if fecha == none { return none }
   let d = fecha_dt(fecha)
-  let mes = meses_es.at(d.month() - 1)
-  str(d.day()) + " de " + mes
+  str(d.day()) + " de " + lower(meses_es.at(d.month() - 1))
+}
+
+// El mes suelto y con mayúscula: «Octubre». Es lo que lleva la portada del
+// cuaderno del mes, en lugar de la fecha.
+#let mes_capital(fecha) = {
+  if fecha == none { return none }
+  meses_es.at(fecha_dt(fecha).month() - 1)
 }
 
 // Separador entre los misales de un mismo mes (lo usa haz-misal-mensual.py): la

@@ -101,6 +101,7 @@ SJB_TYP_CONTENT = """{ajustes}
   eco_de_la_palabra: eco_de_la_palabra,
   portada: {portada},
   separador: {separador},
+  mensual: {mensual},
 )
 """
 
@@ -181,16 +182,18 @@ def compile_template(template_name: str, inc_file_name: str, date_compact: str):
     output_name = output_pattern.format(date_compact=date_compact)
     output_path = BASE_DIR / output_name
 
-    # portada, separador y ajustes sólo los usa el envoltorio de sjb, que es el
-    # que reutiliza el misal mensual; las otras plantillas ignoran los argumentos
-    # que no aparecen en su texto. El misal diario va siempre con portada, sin
-    # separador (eso es cosa del mensual) y con los ajustes de página incluidos
-    # una sola vez, al principio: el mensual los incluye él mismo en el maestro,
-    # porque cada `set page` que entra en vigor abre página nueva.
+    # portada, separador, mensual y ajustes sólo los usa el envoltorio de sjb,
+    # que es el que reutiliza el misal mensual; las otras plantillas ignoran los
+    # argumentos que no aparecen en su texto. El misal diario va siempre con
+    # portada, sin separador y sin portada de mensual (las dos cosas son del
+    # cuaderno del mes), y con los ajustes de página incluidos una sola vez, al
+    # principio: el mensual los incluye él mismo en el maestro, porque cada
+    # `set page` que entra en vigor abre página nueva.
     typ_code = content_template.format(
         inc_file=inc_file_name,
         portada=typst_bool(True),
         separador=typst_bool(False),
+        mensual=typst_bool(False),
         ajustes=AJUSTES_MISAL,
     )
 

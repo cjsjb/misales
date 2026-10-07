@@ -1,5 +1,5 @@
 // template-sjb.typ
-#import "common.typ": respuesta, con_respuestas, canto, dia_semana, fecha_larga, separador_fecha
+#import "common.typ": respuesta, con_respuestas, canto, dia_semana, fecha_larga, mes_capital, separador_fecha
 
 #let cabecera_reflexion(icono, titulo, ambos_lados: true) = {
   let azul = rgb("#2a6099")
@@ -75,6 +75,9 @@
   // lleva portada; los demás abren con el separador de fecha.
   portada: true,
   separador: false,
+  // Portada de cuaderno mensual: «Misal Mensual» y el mes, en vez del día
+  // litúrgico y la fecha. Sólo la pone haz-misal-mensual.py, en el primer día.
+  mensual: false,
 ) = {
   // La página y el texto del misal los aplica ajustes_misal, de common.typ, con
   // un show rule al principio del documento (AJUSTES_MISAL en haz-misal.py). No
@@ -133,8 +136,9 @@
     #let color_fecha = paleta_liturgica.at(color_liturgico, default: paleta_liturgica.verde)
 
     // Dentro del misal mensual la portada es la del primer día: los demás la
-    // saltan. La numeración del cuerpo vuelve sola al cerrarse este bloque, con
-    // el valor de pagina-misal.typ.
+    // saltan, pero el separador lo lleva también el primero, después de ella. La
+    // numeración del cuerpo vuelve sola al cerrarse este bloque, con el valor de
+    // ajustes_misal (common.typ).
     #if portada [
     #set page(numbering: none)
     #align(center)[
@@ -142,18 +146,29 @@
 
       #v(2em)
 
-      #text(font: ("Montserrat"), weight: "bold", size: 25pt)[
-        #upper[
-          #romano(domingo_num) #dia_semana(fecha) DEL\
-          TIEMPO #tiempo
-        ]
-      ]
+      // El cuaderno del mes lleva portada propia: ni el día litúrgico ni la
+      // fecha, sólo el título del cuaderno y el mes. El misal diario se queda
+      // con la de siempre.
+      #if mensual [
+        #text(font: ("Montserrat"), weight: "bold", size: 25pt)[Misal Mensual]
 
-      #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#fecha_larga(fecha)]
+        #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#mes_capital(fecha)]
+      ] else [
+        #text(font: ("Montserrat"), weight: "bold", size: 25pt)[
+          #upper[
+            #romano(domingo_num) #dia_semana(fecha) DEL\
+            TIEMPO #tiempo
+          ]
+        ]
+
+        #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#fecha_larga(fecha)]
+      ]
 
       // La ocasión va en la línea siguiente y en negro: el color litúrgico lo
       // lleva la fecha. generate_inc.py no la trae si el día es ordinario.
-      #if ocasion != none [
+      //
+      // En el cuaderno del mes no va: esa ocasión es la del día 1, no la del mes.
+      #if ocasion != none and not mensual [
         #text(font: ("Montserrat"), size: 14pt, fill: black)[#ocasion]
       ]
 
