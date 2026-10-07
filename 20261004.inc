@@ -52,6 +52,7 @@
 
   Por lo demás, hermanos, aprecien todo lo que es verdadero y noble, cuanto hay de justo y puro, todo lo que es amable y honroso, todo lo que sea virtud y merezca elogio. Pongan por obra cuanto han aprendido y recibido de mí, todo lo que yo he dicho y me han visto hacer; y el Dios de la paz estará con ustedes.
 ]
+#let aleluya_fuente = [Cfr. Jn 15, 16.]
 #let aleluya_aclamacion = [Yo los he elegido del mundo, dice el Señor, para que vayan y den fruto, y su fruto permanezca.]
 #let evangelio_fuente = [Del santo evangelio según san Mateo: 21, 33-43.]
 #let evangelio = [

@@ -113,16 +113,26 @@ def parse_salmo_section(salmo_raw: str) -> tuple[str, str, list[str]]:
 
     return salmo_fuente, aclamacion, stanzas
 
+def asegurar_punto_final(texto: str) -> str:
+    """
+    Returns the citation ending in a full stop: some sheets write it without one
+    («Del santo Evangelio según san Mateo 22, 34-40») and the missal prints it.
+    """
+    texto = texto.strip()
+    if texto and not texto.endswith("."):
+        return texto + "."
+    return texto
+
 def parse_reading_section(section_raw: str) -> tuple[str, str]:
     """
     Parses Primera Lectura / Segunda Lectura / Evangelio section content.
-    First non-empty line is the source citation.
-    Remaining lines form the text body.
+    First non-empty line is the source citation, returned with its final full stop.
+    Remaining lines form the text body, keeping the paragraph breaks.
     """
     lines = [l.strip() for l in section_raw.strip().split("\n") if l.strip()]
     if not lines:
         return "", ""
-    fuente = lines[0]
+    fuente = asegurar_punto_final(lines[0])
     cuerpo = "\n\n".join(lines[1:])
     return fuente, cuerpo
 
@@ -291,10 +301,12 @@ def generate_inc_file(date_arg: str) -> Path:
     lectura_segunda_fuente, lectura_segunda = parse_reading_section(liturgia_sections.get("Segunda lectura", ""))
     evangelio_fuente, evangelio = parse_reading_section(liturgia_sections.get("Evangelio", ""))
 
-    aleluya_aclamacion = liturgia_sections.get("Aclamación antes del evangelio", "")
-    aleluya_lines = [l.strip() for l in aleluya_aclamacion.split("\n") if l.strip()]
-    if len(aleluya_lines) > 1 and ("Jn " in aleluya_lines[0] or "Cfr" in aleluya_lines[0]):
-        aleluya_aclamacion = "\n".join(aleluya_lines[1:])
+    # La aclamación trae su cita en la primera línea, igual que las lecturas; el
+    # mismo parser la separa (antes se adivinaba con «Jn » o «Cfr», y las citas
+    # de Flp, Rom o Lc se quedaban pegadas al texto).
+    aleluya_fuente, aleluya_aclamacion = parse_reading_section(
+        liturgia_sections.get("Aclamación antes del evangelio", "")
+    )
 
     salmo_fuente, salmo_aclamacion, salmo_estrofas = parse_salmo_section(liturgia_sections.get("Salmo", ""))
     salmo_partitura_path = PARA_MISALES_DIR / f"{date_compact}-salmo.png"
@@ -343,6 +355,7 @@ def generate_inc_file(date_arg: str) -> Path:
         inc_lines.append(f'#let lectura_segunda = {format_typst_block(lectura_segunda)}')
 
     if aleluya_aclamacion:
+        inc_lines.append(f'#let aleluya_fuente = [{aleluya_fuente}]')
         inc_lines.append(f'#let aleluya_aclamacion = [{aleluya_aclamacion}]')
 
     if evangelio_fuente:

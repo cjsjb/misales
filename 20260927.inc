@@ -46,6 +46,7 @@
 
   Por eso Dios lo exaltó sobre todas las cosas y le otorgó el nombre que está sobre todo nombre, para que al nombre de Jesús, todos doblen la rodilla en el cielo, en la tierra y en los abismos, y todos reconozcan públicamente que Jesucristo es el Señor, para gloria de Dios Padre.
 ]
+#let aleluya_fuente = [Jn 10, 27.]
 #let aleluya_aclamacion = [Mis ovejas escuchan mi voz, dice el Señor; yo las conozco y ellas me siguen.]
 #let evangelio_fuente = [Del santo evangelio según san Mateo: 21, 28-32.]
 #let evangelio = [

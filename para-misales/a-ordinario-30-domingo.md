@@ -47,7 +47,7 @@ El que me ama cumplirá mi palabra y mi Padre lo amará y haremos en él nuestra
 
 # Evangelio
 
-Del santo Evangelio según san Mateo 22, 34-40
+Del santo Evangelio según san Mateo 22, 34-40.
 
 En aquel tiempo, habiéndose enterado los fariseos de que Jesús había dejado callados a los saduceos, se acercaron a él. Uno de ellos, que era doctor de la ley, le preguntó para ponerlo a prueba: “Maestro, ¿cuál es el mandamiento más grande de la ley?” Jesús le respondió: ‘Amarás al Señor, tu Dios, con todo tu corazón, con toda tu alma y con toda tu mente. Este es el más grande y el primero de los mandamientos. Y el segundo es semejante a éste: Amarás a tu prójimo como a ti mismo. En estos dos mandamientos se fundan toda la ley y los profetas”.
 
