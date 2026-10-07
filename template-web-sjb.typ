@@ -16,7 +16,7 @@
 //   - Los encabezados de nivel 1 se ocultan, igual que en papel.
 //   - La presentación vive en styles.css (Typst no emite CSS): las clases que
 //     se ven aquí (.cubierta, .cubierta-titulo, .respuesta, …) son el enganche.
-#import "common.typ": con_respuestas
+#import "common.typ": con_respuestas, dia_semana, fecha_larga
 
 // En HTML, el color y la negrita que pide respuesta() (text(fill:) + weight:)
 // no sobreviven a la exportación: Typst los descarta y el párrafo sale pelado
@@ -78,30 +78,9 @@
   // se ocultan, igual que en la versión impresa: agrupan, no se muestran.
   show heading.where(level: 1): it => none
 
-  // Fecha larga en español: «Domingo 27 de septiembre de 2026».
-  let dias_es = ("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
-  let meses_es = (
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
-  )
-
-  let fecha_dt = if fecha == none { none } else {
-    let p = fecha.split("-")
-    datetime(year: int(p.at(0)), month: int(p.at(1)), day: int(p.at(2)))
-  }
-
-  let dia_semana = if fecha_dt == none { none } else {
-    dias_es.at(fecha_dt.weekday() - 1)
-  }
-
-  let fecha_larga = if fecha_dt == none { none } else {
-    (
-      dias_es.at(fecha_dt.weekday() - 1)
-        + " " + str(fecha_dt.day())
-        + " de " + meses_es.at(fecha_dt.month() - 1)
-        + " de " + str(fecha_dt.year())
-    )
-  }
+  // La fecha larga en español («Domingo 27 de septiembre de 2026») la da
+  // common.typ: la comparte con la hoja impresa y con el separador del misal
+  // mensual.
 
   // Números romanos: 26 → «XXVI».
   let romanos = (
@@ -121,7 +100,7 @@
   }
 
   // Título de la pestaña del navegador y de la ficha del enlace.
-  let subtitulo = if fecha_larga == none { "" } else { " — " + fecha_larga }
+  let subtitulo = if fecha == none { "" } else { " — " + fecha_larga(fecha) }
   set document(title: "Domingo " + romano(domingo_num) + " del tiempo " + tiempo + subtitulo)
 
   [
@@ -137,14 +116,14 @@
       #image("logo-sjb.png", width: 3cm)
 
       #html.elem("p", attrs: (class: "cubierta-titulo"))[
-        #upper[#romano(domingo_num) #dia_semana DEL TIEMPO #tiempo]
+        #upper[#romano(domingo_num) #dia_semana(fecha) DEL TIEMPO #tiempo]
       ]
 
       // El color va en una clase porque la exportación a HTML descarta el fill
       // de text(): los colores están en styles.css (.color-*), y el blanco se
       // pinta en negro.
       #let clase_fecha = if color_liturgico == none { "cubierta-fecha" } else { "cubierta-fecha color-" + color_liturgico }
-      #html.elem("p", attrs: (class: clase_fecha))[#fecha_larga]
+      #html.elem("p", attrs: (class: clase_fecha))[#fecha_larga(fecha)]
 
       // La ocasión va en la línea siguiente; en negro y con su tamaño la pinta
       // styles.css (.cubierta-ocasion). generate_inc.py no la trae si el día es

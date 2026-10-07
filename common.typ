@@ -110,3 +110,124 @@
     breakable: true,
   )
 }
+
+// Fecha larga en español: «Martes 6 de octubre de 2026». Vive aquí, y no en cada
+// plantilla, porque la usan la cubierta de papel, la de la web y el separador
+// del misal mensual; antes estaba copiada en las dos plantillas.
+#let dias_es = ("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+#let meses_es = (
+  "enero", "febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+)
+
+#let fecha_dt(fecha) = {
+  let p = fecha.split("-")
+  datetime(year: int(p.at(0)), month: int(p.at(1)), day: int(p.at(2)))
+}
+
+// Sin fecha —una plantilla que no la pase— devuelve none, como antes: en
+// contenido, none no pinta nada.
+#let dia_semana(fecha) = {
+  if fecha == none { return none }
+  dias_es.at(fecha_dt(fecha).weekday() - 1)
+}
+
+#let fecha_larga(fecha) = {
+  if fecha == none { return none }
+  let d = fecha_dt(fecha)
+  // Los paréntesis no son decorativos: fuera de ellos Typst corta la expresión
+  // en cada salto de línea y el «+» de la línea siguiente queda como un más
+  // unario sobre una cadena («cannot apply unary '+' to string»).
+  (
+    dias_es.at(d.weekday() - 1)
+      + " " + str(d.day())
+      + " de " + meses_es.at(d.month() - 1)
+      + " de " + str(d.year())
+  )
+}
+
+// Separador entre los misales de un mismo mes (lo usa haz-misal-mensual.py): la
+// fecha del día con el mismo aire que los epígrafes de sección, para que se lea
+// como parte del misal y no como un añadido. No abre página: cae donde acaba el
+// día anterior, así que el aire de arriba es lo que lo separa de él.
+// Ajustes del misal impreso: tamaño de página, márgenes, numeración, fuente y
+// justificado.
+//
+// Se aplican con un show rule al principio del documento, y no dentro de
+// template-sjb.typ, por una regla de Typst: cada `set page` que entra en vigor
+// inserta una página nueva, aunque los valores sean los mismos que ya había. Con
+// la plantilla llamada una vez por día, eso abría página en cada día del misal
+// mensual, y como el primer contenido del día es el separador de fecha, el
+// separador salía siempre arriba de una página nueva.
+//
+// Uso, como primeras líneas del documento:
+//   #import "common.typ": ajustes_misal
+//   #show: ajustes_misal
+//
+// Lo piden el envoltorio del misal diario y el maestro del mensual, cada uno una
+// sola vez (AJUSTES_MISAL en haz-misal.py).
+#let ajustes_misal(doc) = {
+  set page(
+    width: 7in,
+    height: 8.5in,
+    margin: (inside: 0.5in, outside: 1.0cm, top: 1.0cm, bottom: 0.75cm),
+    numbering: "1",
+  )
+
+  set text(
+    font: ("Droid Serif"),
+    size: 11pt,
+    lang: "es"
+  )
+
+  set par(
+    justify: true,
+    leading: 0.65em,
+  )
+
+  doc
+}
+
+// Fecha del día en corto, para el separador del misal mensual: «4 de octubre».
+#let fecha_dia_mes(fecha) = {
+  if fecha == none { return none }
+  let d = fecha_dt(fecha)
+  let mes = meses_es.at(d.month() - 1)
+  str(d.day()) + " de " + mes
+}
+
+// Separador entre los misales de un mismo mes (lo usa haz-misal-mensual.py): la
+// fecha y, debajo, la banda con el día —día de la semana, ordinal y tiempo, más
+// la ocasión si la hay— en el color litúrgico, con filete arriba. El
+// blanco llega ya convertido en negro, como en el resto del misal impreso.
+//
+// No abre página: cae donde acaba el día anterior, así que el aire de arriba es
+// lo que lo separa de él.
+//
+// Va entero en una sola página (breakable: false): el filete, la fecha y
+// la banda son una pieza, y sin eso se repartían entre páginas distintas. Si no
+// cabe al final de una, pasa entero a la siguiente.
+//
+// El título lo arma template-sjb.typ, que ya tiene el día resuelto (romano,
+// dia_semana, tiempo, ocasión) y el color de la fecha en color_fecha.
+#let separador_fecha(fecha, titulo, ocasion: none, color: rgb("#2a6099")) = {
+  let azul = rgb("#2a6099")
+  block(width: 100%, breakable: false, pad(top: 0.3em, bottom: 0.1em, [
+    #line(length: 100%, stroke: 1.25pt + azul)
+
+    #align(center)[
+      #text(font: ("Montserrat"), weight: "bold", size: 14pt, fill: azul)[#fecha_dia_mes(fecha)]
+    ]
+
+    #block(width: 100%, inset: (y: 0.5em), fill: color)[
+      #align(center)[
+        #text(font: ("Montserrat"), weight: "bold", size: 16pt, fill: white)[#upper(titulo)]
+        #if ocasion != none [
+          #linebreak()
+          #text(font: ("Montserrat"), weight: "bold", size: 14pt, fill: white)[#upper(ocasion)]
+        ]
+      ]
+    ]
+
+  ]))
+}

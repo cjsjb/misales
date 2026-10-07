@@ -1,5 +1,5 @@
 // template-sjb.typ
-#import "common.typ": respuesta, con_respuestas, canto
+#import "common.typ": respuesta, con_respuestas, canto, dia_semana, fecha_larga, separador_fecha
 
 #let cabecera_reflexion(icono, titulo, ambos_lados: true) = {
   let azul = rgb("#2a6099")
@@ -71,24 +71,16 @@
   oracion_comunion: none,
   oracion_personal: none,
   eco_de_la_palabra: none,
+  // El misal mensual llama a esta plantilla una vez por día: sólo el primero
+  // lleva portada; los demás abren con el separador de fecha.
+  portada: true,
+  separador: false,
 ) = {
-  set page(
-    width: 7in,
-    height: 8.5in,
-    margin: (inside: 0.5in, outside: 1.0cm, top: 1.0cm, bottom: 0.75cm),
-    numbering: "1",
-  )
-
-  set text(
-    font: ("Droid Serif"),
-    size: 11pt,
-    lang: "es"
-  )
-
-  set par(
-    justify: true,
-    leading: 0.65em,
-  )
+  // La página y el texto del misal los aplica ajustes_misal, de common.typ, con
+  // un show rule al principio del documento (AJUSTES_MISAL en haz-misal.py). No
+  // pueden vivir aquí: cada `set page` que entra en vigor inserta una página
+  // nueva, así que con esta plantilla llamada una vez por día el misal mensual
+  // abría página en cada día.
 
   show heading.where(level: 1): it => none
 
@@ -108,29 +100,8 @@
     )
   ]
 
-  let dias_es = ("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
-  let meses_es = (
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
-  )
-
-  let fecha_dt = if fecha == none { none } else {
-    let p = fecha.split("-")
-    datetime(year: int(p.at(0)), month: int(p.at(1)), day: int(p.at(2)))
-  }
-
-  let dia_semana = if fecha_dt == none { none } else {
-    dias_es.at(fecha_dt.weekday() - 1)
-  }
-
-  let fecha_larga = if fecha_dt == none { none } else {
-    (
-      dias_es.at(fecha_dt.weekday() - 1)
-        + " " + str(fecha_dt.day())
-        + " de " + meses_es.at(fecha_dt.month() - 1)
-        + " de " + str(fecha_dt.year())
-    )
-  }
+  // El día de la semana y la fecha larga los da common.typ: los usan también la
+  // hoja web y el separador del misal mensual.
 
   let romanos = (
     (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
@@ -161,6 +132,10 @@
     )
     #let color_fecha = paleta_liturgica.at(color_liturgico, default: paleta_liturgica.verde)
 
+    // Dentro del misal mensual la portada es la del primer día: los demás la
+    // saltan. La numeración del cuerpo vuelve sola al cerrarse este bloque, con
+    // el valor de pagina-misal.typ.
+    #if portada [
     #set page(numbering: none)
     #align(center)[
       #image("header-sjb.png", width: 11.1cm)
@@ -169,12 +144,12 @@
 
       #text(font: ("Montserrat"), weight: "bold", size: 25pt)[
         #upper[
-          #romano(domingo_num) #dia_semana DEL\
+          #romano(domingo_num) #dia_semana(fecha) DEL\
           TIEMPO #tiempo
         ]
       ]
 
-      #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#fecha_larga]
+      #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#fecha_larga(fecha)]
 
       // La ocasión va en la línea siguiente y en negro: el color litúrgico lo
       // lleva la fecha. generate_inc.py no la trae si el día es ordinario.
@@ -192,7 +167,21 @@
     ]
 
     #pagebreak()
-    #set page(numbering: "1")
+    ]
+
+    // El separador va aquí dentro, y no en el envoltorio, para que herede el
+    // tamaño de página y el tipo del misal.
+    //
+    // Sin salto de página a propósito: el misal mensual es un texto continuo y
+    // el separador es lo único que marca dónde empieza cada día.
+    #if separador [
+      #separador_fecha(
+        fecha,
+        [#dia_semana(fecha) #romano(domingo_num) DEL TIEMPO #tiempo],
+        ocasion: ocasion,
+        color: color_fecha,
+      )
+    ]
 
     = Ritos iniciales
 

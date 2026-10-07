@@ -63,7 +63,14 @@ CJSJB_TYP_CONTENT = """#import "template-cjsjb.typ": render-cjsjb
 )
 """
 
-SJB_TYP_CONTENT = """#import "template-sjb.typ": render-sjb
+# Ajustes de página y texto del misal impreso, que define common.typ. Se piden al
+# principio del documento, una sola vez: no pueden ir dentro de la plantilla,
+# porque cada `set page` que entra en vigor inserta una página nueva y la
+# plantilla se llama una vez por día en el misal mensual.
+AJUSTES_MISAL = '#import "common.typ": ajustes_misal\n#show: ajustes_misal\n'
+
+SJB_TYP_CONTENT = """{ajustes}
+#import "template-sjb.typ": render-sjb
 #import "common-defaults.typ": *
 #import "{inc_file}": *
 
@@ -92,6 +99,8 @@ SJB_TYP_CONTENT = """#import "template-sjb.typ": render-sjb
   oracion_comunion: oracion_comunion,
   oracion_personal: oracion_personal,
   eco_de_la_palabra: eco_de_la_palabra,
+  portada: {portada},
+  separador: {separador},
 )
 """
 
@@ -136,32 +145,61 @@ TEMPLATES = {
     "web-sjb": ("misal-sjb-{date_compact}.html", WEB_SJB_TYP_CONTENT, "html"),
 }
 
+def compilar_typst(typ_path: Path, output_path: Path, export_format: str = "pdf") -> bool:
+    """
+    Compiles a .typ file into output_path ("pdf" or "html") and reports success.
+
+    Shared with haz-misal-mensual.py: the monthly booklet is this same wrapper,
+    one day after another, so the compile step is the same one.
+    """
+    cmd = ["typst", "compile"]
+    if export_format == "html":
+        # HTML export is still an experimental, feature-flagged target.
+        cmd.extend(["--features", "html", "--format", "html", "--pretty"])
+    if FONTS_DIR.exists():
+        cmd.extend(["--font-path", str(FONTS_DIR)])
+    cmd.extend([str(typ_path), str(output_path)])
+
+    res = subprocess.run(cmd, cwd=BASE_DIR, capture_output=True, text=True)
+    if res.returncode != 0:
+        print(f"Error compiling {output_path.name}:\n{res.stderr}", file=sys.stderr)
+        return False
+    print(f"Successfully compiled: {output_path.name}")
+    return True
+
+def typst_bool(valor: bool) -> str:
+    """
+    Returns the Typst spelling of a boolean.
+
+    Typst writes true/false in lower case, so a Python True pasted into the
+    wrapper is an unknown variable, not a boolean.
+    """
+    return "true" if valor else "false"
+
 def compile_template(template_name: str, inc_file_name: str, date_compact: str):
     output_pattern, content_template, export_format = TEMPLATES[template_name]
     output_name = output_pattern.format(date_compact=date_compact)
     output_path = BASE_DIR / output_name
 
-    typ_code = content_template.format(inc_file=inc_file_name)
+    # portada, separador y ajustes sólo los usa el envoltorio de sjb, que es el
+    # que reutiliza el misal mensual; las otras plantillas ignoran los argumentos
+    # que no aparecen en su texto. El misal diario va siempre con portada, sin
+    # separador (eso es cosa del mensual) y con los ajustes de página incluidos
+    # una sola vez, al principio: el mensual los incluye él mismo en el maestro,
+    # porque cada `set page` que entra en vigor abre página nueva.
+    typ_code = content_template.format(
+        inc_file=inc_file_name,
+        portada=typst_bool(True),
+        separador=typst_bool(False),
+        ajustes=AJUSTES_MISAL,
+    )
 
     with tempfile.NamedTemporaryFile("w", dir=BASE_DIR, suffix=".typ", delete=False, encoding="utf-8") as tmp_file:
         tmp_file.write(typ_code)
         tmp_path = Path(tmp_file.name)
 
     try:
-        cmd = ["typst", "compile"]
-        if export_format == "html":
-            # HTML export is still an experimental, feature-flagged target.
-            cmd.extend(["--features", "html", "--format", "html", "--pretty"])
-        if FONTS_DIR.exists():
-            cmd.extend(["--font-path", str(FONTS_DIR)])
-        cmd.extend([str(tmp_path), str(output_path)])
-
-        res = subprocess.run(cmd, cwd=BASE_DIR, capture_output=True, text=True)
-        if res.returncode != 0:
-            print(f"Error compiling {output_name}:\n{res.stderr}", file=sys.stderr)
-            return False
-        print(f"Successfully compiled: {output_name}")
-        return True
+        return compilar_typst(tmp_path, output_path, export_format)
     finally:
         if tmp_path.exists():
             tmp_path.unlink()
