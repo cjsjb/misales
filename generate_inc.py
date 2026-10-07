@@ -10,6 +10,7 @@ Usage:
 import argparse
 import csv
 import sys
+from datetime import datetime
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.resolve()
@@ -132,6 +133,30 @@ def format_typst_block(text: str, indent: str = "  ") -> str:
     indented_lines = "\n".join(f"{indent}{l}" if l else "" for l in text.split("\n"))
     return f"[\n{indented_lines}\n]"
 
+DIAS_SEMANA = ("lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo")
+# El nombre del archivo puede llevar tilde o no; se prueban las dos formas.
+DIAS_SEMANA_CON_TILDE = {"miercoles": "miércoles", "sabado": "sábado"}
+
+def find_liturgia_md(formatted_date: str, ciclo: str, tiempo: str, numero: int) -> Path:
+    """
+    Returns the .md of the day's liturgy: <ciclo>-<tiempo>-<numero>-<weekday>.md.
+    The weekday comes from the date, so a weekday sheet does not fall back to
+    the Sunday sheet of the same liturgical week.
+    """
+    # Una feria no es el domingo de esa semana: el lunes 5 de octubre de 2026
+    # usa a-ordinario-27-lunes.md, no a-ordinario-27-domingo.md.
+    dia = DIAS_SEMANA[datetime.strptime(formatted_date, "%Y-%m-%d").weekday()]
+    base = f"{ciclo.lower()}-{tiempo.lower()}-{numero}"
+    candidatos = [dia]
+    if dia in DIAS_SEMANA_CON_TILDE:
+        candidatos.append(DIAS_SEMANA_CON_TILDE[dia])
+    for candidato in candidatos:
+        ruta = PARA_MISALES_DIR / f"{base}-{candidato}.md"
+        if ruta.exists():
+            return ruta
+    # Si no existe ninguno se devuelve el esperado, para que el aviso lo nombre.
+    return PARA_MISALES_DIR / f"{base}-{dia}.md"
+
 def generate_inc_file(date_arg: str) -> Path:
     formatted_date, date_compact = normalize_date(date_arg)
     cal = load_calendar(formatted_date)
@@ -141,7 +166,7 @@ def generate_inc_file(date_arg: str) -> Path:
     ciclo = cal["ciclo"].upper()
 
     sjb_md_path = PARA_MISALES_DIR / f"{date_compact}-sjb.md"
-    liturgia_md_path = PARA_MISALES_DIR / f"{cal['ciclo'].lower()}-{cal['tiempo'].lower()}-{domingo_num}-domingo.md"
+    liturgia_md_path = find_liturgia_md(formatted_date, cal["ciclo"], cal["tiempo"], domingo_num)
 
     if not liturgia_md_path.exists():
         print(f"Warning: Liturgy file {liturgia_md_path.name} not found.", file=sys.stderr)
