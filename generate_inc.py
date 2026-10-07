@@ -137,6 +137,17 @@ DIAS_SEMANA = ("lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "d
 # El nombre del archivo puede llevar tilde o no; se prueban las dos formas.
 DIAS_SEMANA_CON_TILDE = {"miercoles": "miércoles", "sabado": "sábado"}
 
+def dia_semana_es(formatted_date: str) -> str:
+    """
+    Returns the weekday of the date in Spanish and capitalised: «Lunes»,
+    «Miércoles», «Sábado».
+
+    `find_liturgia_md` keeps the lowercase key for the file name; this is for
+    showing the day, where a weekday sheet must not call itself domingo.
+    """
+    dia = DIAS_SEMANA[datetime.strptime(formatted_date, "%Y-%m-%d").weekday()]
+    return DIAS_SEMANA_CON_TILDE.get(dia, dia).capitalize()
+
 def find_liturgia_md(formatted_date: str, ciclo: str, tiempo: str, numero: int) -> Path:
     """
     Returns the .md of the day's liturgy: <ciclo>-<tiempo>-<numero>-<weekday>.md.
