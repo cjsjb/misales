@@ -2,6 +2,7 @@
 #let domingo_num = 26
 #let fecha = "2026-09-27"
 #let frase = "¿Crees que Dios puede perdonar a cualquiera que se arrepienta?"
+#let color_liturgico = "verde"
 
 #let monicion_entrada = [Jesús hoy nos pregunta si nuestra fe se queda en palabras o realmente transforma nuestra vida. Dispongamos el corazón para pasar del “sí” dicho al “sí” vivido.]
 #let monicion_ofrendas = [Que nuestra ofrenda sea un “sí” concreto a Dios, expresado en generosidad y servicio. Gracias por tu ayuda.]

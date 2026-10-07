@@ -67,6 +67,10 @@
   --papel: #ffffff;
   --azul: #294a82;          /* rgb(41, 74, 130): fondo de los encabezados */
   --azul-claro: #5983b0;    /* rgb(89, 131, 176): respuesta() en la edición impresa */
+  --verde: #00a933;         /* color litúrgico del tiempo ordinario */
+  --morado: #5b2d8e;        /* adviento y cuaresma */
+  --rojo: #b3252c;          /* memoria de un mártir, Ramos, Pentecostés */
+  --negro: #000000;         /* el blanco litúrgico, que aquí se pinta en negro */
   --fuente-texto: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fuente-titulos: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -181,6 +185,15 @@ h3 {
 .cubierta-fecha {
   margin: 0 0 5rem;   /* pegada al título, con aire antes de la frase */
 }
+
+/* Color litúrgico de la fecha: la clase la emite template-web-sjb.typ con el
+ * nombre que resuelve generate_inc.py (la sección `Color` de la liturgia o, si
+ * falta, el tiempo litúrgico). El blanco se pinta en negro: sobre blanco no se
+ * leería. */
+.color-verde  { color: var(--verde); }
+.color-morado { color: var(--morado); }
+.color-rojo   { color: var(--rojo); }
+.color-blanco { color: var(--negro); }
 
 .cubierta-frase {
   margin: 0 0 7.5rem;

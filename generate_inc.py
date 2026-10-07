@@ -157,6 +157,43 @@ def find_liturgia_md(formatted_date: str, ciclo: str, tiempo: str, numero: int) 
     # Si no existe ninguno se devuelve el esperado, para que el aviso lo nombre.
     return PARA_MISALES_DIR / f"{base}-{dia}.md"
 
+# Los colores litúrgicos que entienden los templates. El nombre es la clave que
+# usan la paleta de template-sjb.typ y las clases .color-* de styles.css.
+COLORES_VALIDOS = ("verde", "morado", "blanco", "rojo")
+
+# Color por defecto de cada tiempo litúrgico (columna `tiempo` de
+# calendario.csv). Las excepciones (Ramos, Pentecostés, la memoria de un santo)
+# van en la sección `Color` del archivo de liturgia.
+COLORES_TIEMPO = {
+    "ordinario": "verde",
+    "adviento": "morado",
+    "cuaresma": "morado",
+    "navidad": "blanco",
+    "pascua": "blanco",
+}
+COLOR_POR_DEFECTO = "verde"
+
+def resolver_color(color_md: str, tiempo: str) -> str:
+    """
+    Returns the name of the day's liturgical color.
+
+    The liturgy's `Color` section wins when it holds a known name; otherwise the
+    color comes from the liturgical season (`tiempo`). An unrecognized value is
+    reported instead of guessed, and falls back to the season color. The name is
+    what the templates map to a fill (print) or to a CSS class (web).
+    """
+    valor = color_md.strip().lower()
+    if valor:
+        if valor in COLORES_VALIDOS:
+            return valor
+        print(
+            f"Warning: unrecognized liturgical color '{color_md.strip()}'; "
+            f"using the color of the season instead.",
+            file=sys.stderr,
+        )
+
+    return COLORES_TIEMPO.get(tiempo.strip().lower(), COLOR_POR_DEFECTO)
+
 def generate_inc_file(date_arg: str) -> Path:
     formatted_date, date_compact = normalize_date(date_arg)
     cal = load_calendar(formatted_date)
@@ -190,6 +227,11 @@ def generate_inc_file(date_arg: str) -> Path:
     oracion_ofrendas = liturgia_sections.get("Oración sobre las ofrendas", "")
     oracion_comunion = liturgia_sections.get("Oración después de la comunión", "")
 
+    # El color litúrgico es opcional: manda la sección `Color` de la liturgia si
+    # trae un nombre conocido, y si no, sale del tiempo litúrgico.
+    color_md = liturgia_sections.get("Color", "")
+    color_liturgico = resolver_color(color_md, cal["tiempo"])
+
     lectura_primera_fuente, lectura_primera = parse_reading_section(liturgia_sections.get("Primera lectura", ""))
     lectura_segunda_fuente, lectura_segunda = parse_reading_section(liturgia_sections.get("Segunda lectura", ""))
     evangelio_fuente, evangelio = parse_reading_section(liturgia_sections.get("Evangelio", ""))
@@ -208,6 +250,7 @@ def generate_inc_file(date_arg: str) -> Path:
     inc_lines.append(f'#let domingo_num = {domingo_num}')
     inc_lines.append(f'#let fecha = "{formatted_date}"')
     inc_lines.append(f'#let frase = "{frase}"')
+    inc_lines.append(f'#let color_liturgico = "{color_liturgico}"')
     inc_lines.append("")
 
     if monicion_entrada:

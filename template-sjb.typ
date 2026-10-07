@@ -51,6 +51,7 @@
   fecha: none,
   hora: none,
   frase: none,
+  color_liturgico: none,
   oracion_colecta: none,
   lectura_primera_fuente: none,
   lectura_primera: none,
@@ -147,6 +148,18 @@
   }
 
   [
+    // Color litúrgico de la fecha: lo resuelve generate_inc.py (la sección
+    // `Color` de la liturgia o, si falta, el tiempo litúrgico). El blanco se
+    // imprime en negro, que si no no se vería sobre el papel. Ojo: este bloque
+    // es contenido, así que el código va con #.
+    #let paleta_liturgica = (
+      verde: rgb("#00a933"),
+      morado: rgb("#5b2d8e"),
+      blanco: black,
+      rojo: rgb("#b3252c"),
+    )
+    #let color_fecha = paleta_liturgica.at(color_liturgico, default: paleta_liturgica.verde)
+
     #set page(numbering: none)
     #align(center)[
       #image("header-sjb.png", width: 11.1cm)
@@ -160,7 +173,7 @@
         ]
       ]
 
-      #text(font: ("Montserrat"), size: 18pt, fill: rgb("#00a933"))[#fecha_larga]
+      #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#fecha_larga]
 
       #v(5em)
 

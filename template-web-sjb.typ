@@ -49,6 +49,7 @@
   fecha: none,
   hora: none,
   frase: none,
+  color_liturgico: none,
   oracion_colecta: none,
   lectura_primera_fuente: none,
   lectura_primera: none,
@@ -138,7 +139,11 @@
         #upper[#romano(domingo_num) #dia_semana DEL TIEMPO #tiempo]
       ]
 
-      #html.elem("p", attrs: (class: "cubierta-fecha"))[#fecha_larga]
+      // El color va en una clase porque la exportación a HTML descarta el fill
+      // de text(): los colores están en styles.css (.color-*), y el blanco se
+      // pinta en negro.
+      #let clase_fecha = if color_liturgico == none { "cubierta-fecha" } else { "cubierta-fecha color-" + color_liturgico }
+      #html.elem("p", attrs: (class: clase_fecha))[#fecha_larga]
 
       #html.elem("p", attrs: (class: "cubierta-frase"))[#emph(frase)]
 
