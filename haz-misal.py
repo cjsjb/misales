@@ -88,6 +88,8 @@ SJB_TYP_CONTENT = """#import "template-sjb.typ": render-sjb
   oracion_delosfieles: oracion_delosfieles,
   oracion_ofrendas: oracion_ofrendas,
   oracion_comunion: oracion_comunion,
+  oracion_personal: oracion_personal,
+  eco_de_la_palabra: eco_de_la_palabra,
 )
 """
 

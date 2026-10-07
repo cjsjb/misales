@@ -1,6 +1,49 @@
 // template-sjb.typ
 #import "common.typ": respuesta, con_respuestas, canto
 
+#let cabecera_reflexion(icono, titulo, ambos_lados: true) = {
+  let azul = rgb("#2a6099")
+  let tam_icono = 1.5cm
+  let titulo_txt = text(
+    font: "Montserrat",
+    weight: "bold",
+    size: 18pt,
+    fill: azul,
+    upper(titulo),
+  )
+  let fila = if ambos_lados {
+    grid(
+      columns: (auto, auto, auto),
+      column-gutter: 2em,
+      align: horizon,
+      image(icono, width: tam_icono),
+      titulo_txt,
+      image(icono, width: tam_icono),
+    )
+  } else {
+    grid(
+      columns: (auto, 1fr),
+      column-gutter: 0.6em,
+      align: horizon,
+      image(icono, width: tam_icono),
+      align(center, titulo_txt),
+    )
+  }
+  pad(top: 1.0em, bottom: 0.5em, grid(
+    columns: (1fr,),
+    row-gutter: 0.55em,
+    align: center,
+    // Separador: tres puntos, dibujados como círculos para no depender de la
+    // fuente.
+    grid(
+      columns: (auto,) * 3,
+      column-gutter: 0.3cm,
+      ..((circle(radius: 0.55mm, fill: azul),) * 3),
+    ),
+    fila,
+  ))
+}
+
 #let render-sjb(
   tiempo: "Ordinario",
   domingo_num: 0,
@@ -24,6 +67,8 @@
   oracion_delosfieles: none,
   oracion_ofrendas: none,
   oracion_comunion: none,
+  oracion_personal: none,
+  eco_de_la_palabra: none,
 ) = {
   set page(
     width: 7in,
@@ -202,6 +247,18 @@
     == Oración después de la comunión
 
     #oracion_comunion #respuesta[Amén.]
+
+    #if oracion_personal != none [
+      == Oración personal después de comulgar
+
+      #oracion_personal
+    ]
+
+    #if eco_de_la_palabra != none [
+      #cabecera_reflexion("icono-ecodelapalabra-bw.svg", "Eco de la palabra")
+
+      #eco_de_la_palabra
+    ]
 
     = Rito de conclusión
   ]
