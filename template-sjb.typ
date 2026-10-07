@@ -73,13 +73,13 @@
   set page(
     width: 7in,
     height: 8.5in,
-    margin: (inside: 0.5in, outside: 0.5in, top: 1.0cm, bottom: 0.75cm),
+    margin: (inside: 0.5in, outside: 1.0cm, top: 1.0cm, bottom: 0.75cm),
     numbering: "1",
   )
 
   set text(
     font: ("Droid Serif"),
-    size: 12pt,
+    size: 11pt,
     lang: "es"
   )
 
