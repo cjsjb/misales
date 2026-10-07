@@ -177,14 +177,18 @@
       ]
     }
 
-    == Segunda lectura
+    // En las ferias no hay segunda lectura: si falta, se oculta la sección
+    // entera, con su salutación final.
+    #if lectura_segunda_fuente != none [
+      == Segunda lectura
 
-    #lectura_segunda_fuente
+      #lectura_segunda_fuente
 
-    #lectura_segunda
+      #lectura_segunda
 
-    Palabra de Dios. \
-    #respuesta_web[Te alabamos, Señor.]
+      Palabra de Dios. \
+      #respuesta_web[Te alabamos, Señor.]
+    ]
 
     == Aclamación antes del evangelio
 
@@ -205,9 +209,12 @@
     Palabra del Señor. \
     #respuesta_web[Gloria a ti, Señor Jesús.]
 
-    == Oración universal
+    // La oración universal es opcional: si falta, se oculta la sección.
+    #if oracion_delosfieles != none [
+      == Oración universal
 
-    #con_respuestas(oracion_delosfieles, respuesta_fn: respuesta_web)
+      #con_respuestas(oracion_delosfieles, respuesta_fn: respuesta_web)
+    ]
 
     = Liturgia eucarística
 
