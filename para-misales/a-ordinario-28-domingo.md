@@ -1,3 +1,7 @@
+# Ocasión
+
+Domingo
+
 # Oración colecta
 
 Te pedimos, Señor, que tu gracia continuamente nos disponga y nos acompañe, de manera que estemos siempre dispuestos a obrar el bien. Por nuestro Señor Jesucristo, tu Hijo, que vive y reina contigo en la unidad del Espíritu Santo y es Dios por los siglos de los siglos.

@@ -1,3 +1,7 @@
+# Ocasión
+
+Domingo
+
 # Oración colecta
 
 Dios todopoderoso y eterno, que en la abundancia de tu amor sobrepasas los méritos y aun los deseos de los que te suplican, derrama sobre nosotros tu misericordia para que libres nuestra conciencia de toda inquietud y nos concedas aun aquello que no nos atrevemos a pedir. Por nuestro Señor Jesucristo, tu Hijo, que vive y reina contigo en la unidad del Espíritu Santo y es Dios por los siglos de los siglos.

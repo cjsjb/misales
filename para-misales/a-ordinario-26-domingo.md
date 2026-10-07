@@ -1,3 +1,7 @@
+# Ocasión
+
+Domingo
+
 # Oración colecta
 
 Señor Dios, que manifiestas tu poder de una manera admirable sobre todo cuando perdonas y ejerces tu misericordia, multiplica tu gracia sobre nosotros, para que, apresurándonos hacia lo que nos prometes, nos hagas partícipes de los bienes celestiales. Por nuestro Señor Jesucristo, tu Hijo, que vive y reina contigo en la unidad del Espíritu Santo y es Dios por los siglos de los siglos.

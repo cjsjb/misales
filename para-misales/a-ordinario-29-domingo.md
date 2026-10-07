@@ -1,3 +1,7 @@
+# Ocasión
+
+Domingo
+
 # Oración colecta
 
 Dios nuestro, que quieres que todos los hombres se salven y lleguen al conocimiento de la verdad, mira la abundancia de tu mies y dígnate enviarle trabajadores, para que tu Evangelio sea anunciado a toda creatura y tu pueblo, congregado por la palabra de vida y sostenido con la fuerza de los sacramentos, avance por el camino de la salvación y de la caridad. Por nuestro Señor Jesucristo, tu Hijo, que vive y reina contigo en la unidad del Espíritu Santo y es Dios por los siglos de los siglos.

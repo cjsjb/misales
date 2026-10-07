@@ -1,3 +1,7 @@
+# Ocasión
+
+Domingo
+
 # Oración colecta
 
 Dios todopoderoso y eterno, aumenta en nosotros la fe, la esperanza y la caridad, y para que merezcamos alcanzar lo que nos prometes, concédenos amar lo que nos mandas. Por nuestro Señor Jesucristo, tu Hijo, que vive y reina contigo en la unidad del Espíritu Santo y es Dios por los siglos de los siglos.
