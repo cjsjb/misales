@@ -255,6 +255,40 @@ def resolver_ocasion(ocasion_md: str) -> str | None:
 
     return texto
 
+# Secciones de «datos regulares»: las trae la hoja general del día, y las puede
+# sustituir la hoja de la fecha, que manda sobre ella.
+SECCIONES_REGULARES = (
+    "Color",
+    "Ocasión",
+    "Primera lectura",
+    "Segunda lectura",
+    "Salmo",
+    "Aclamación antes del evangelio",
+    "Evangelio",
+    "Oración colecta",
+    "Oración sobre las ofrendas",
+    "Oración después de la comunión",
+)
+
+def secciones_regulares(sjb_sections: dict[str, str], liturgia_sections: dict[str, str]) -> dict[str, str]:
+    """
+    Merges the day's regular data, with the sheet of the date on top.
+
+    The regular data — colour, occasion, prayers, readings, psalm — comes from
+    <ciclo>-<tiempo>-<numero>-<weekday>.md, the general sheet of the day. When
+    <date>-sjb.md, the sheet of that exact date, carries one of those sections,
+    it wins: that is how a parish feast brings its own prayers and readings. A
+    regular section that only the date sheet has is added as well.
+
+    Returns the general sheet's sections with the date sheet's on top.
+    """
+    fusion = dict(liturgia_sections)
+    for titulo in SECCIONES_REGULARES:
+        valor = sjb_sections.get(titulo, "")
+        if valor:
+            fusion[titulo] = valor
+    return fusion
+
 def generate_inc_file(date_arg: str) -> Path:
     formatted_date, date_compact = normalize_date(date_arg)
     cal = load_calendar(formatted_date)
@@ -271,6 +305,9 @@ def generate_inc_file(date_arg: str) -> Path:
 
     sjb_sections = parse_markdown_sections(sjb_md_path)
     liturgia_sections = parse_markdown_sections(liturgia_md_path)
+    # Los datos regulares del día, ya con la hoja de la fecha por encima de la
+    # hoja general.
+    liturgia_del_dia = secciones_regulares(sjb_sections, liturgia_sections)
 
     frase = sjb_sections.get("Pregunta detonante", sjb_sections.get("Frase del domingo", sjb_sections.get("Frase", "")))
     monicion_entrada = sjb_sections.get("Mención de entrada", sjb_sections.get("Monición de entrada", ""))
@@ -284,31 +321,31 @@ def generate_inc_file(date_arg: str) -> Path:
     # «Cápsula para saber más».
     lo_sabias = sjb_sections.get("Cápsula para saber más", "")
 
-    oracion_colecta = liturgia_sections.get("Oración colecta", "")
-    oracion_ofrendas = liturgia_sections.get("Oración sobre las ofrendas", "")
-    oracion_comunion = liturgia_sections.get("Oración después de la comunión", "")
+    oracion_colecta = liturgia_del_dia.get("Oración colecta", "")
+    oracion_ofrendas = liturgia_del_dia.get("Oración sobre las ofrendas", "")
+    oracion_comunion = liturgia_del_dia.get("Oración después de la comunión", "")
 
     # El color litúrgico es opcional: manda la sección `Color` de la liturgia si
     # trae un nombre conocido, y si no, sale del tiempo litúrgico.
-    color_md = liturgia_sections.get("Color", "")
+    color_md = liturgia_del_dia.get("Color", "")
     color_liturgico = resolver_color(color_md, cal["tiempo"])
 
     # La ocasión también es opcional: se calla cuando es un día ordinario o
     # cuando la liturgia no la trae.
-    ocasion = resolver_ocasion(liturgia_sections.get("Ocasión", ""))
+    ocasion = resolver_ocasion(liturgia_del_dia.get("Ocasión", ""))
 
-    lectura_primera_fuente, lectura_primera = parse_reading_section(liturgia_sections.get("Primera lectura", ""))
-    lectura_segunda_fuente, lectura_segunda = parse_reading_section(liturgia_sections.get("Segunda lectura", ""))
-    evangelio_fuente, evangelio = parse_reading_section(liturgia_sections.get("Evangelio", ""))
+    lectura_primera_fuente, lectura_primera = parse_reading_section(liturgia_del_dia.get("Primera lectura", ""))
+    lectura_segunda_fuente, lectura_segunda = parse_reading_section(liturgia_del_dia.get("Segunda lectura", ""))
+    evangelio_fuente, evangelio = parse_reading_section(liturgia_del_dia.get("Evangelio", ""))
 
     # La aclamación trae su cita en la primera línea, igual que las lecturas; el
     # mismo parser la separa (antes se adivinaba con «Jn » o «Cfr», y las citas
     # de Flp, Rom o Lc se quedaban pegadas al texto).
     aleluya_fuente, aleluya_aclamacion = parse_reading_section(
-        liturgia_sections.get("Aclamación antes del evangelio", "")
+        liturgia_del_dia.get("Aclamación antes del evangelio", "")
     )
 
-    salmo_fuente, salmo_aclamacion, salmo_estrofas = parse_salmo_section(liturgia_sections.get("Salmo", ""))
+    salmo_fuente, salmo_aclamacion, salmo_estrofas = parse_salmo_section(liturgia_del_dia.get("Salmo", ""))
     salmo_partitura_path = PARA_MISALES_DIR / f"{date_compact}-salmo.png"
     salmo_partitura_str = f"para-misales/{date_compact}-salmo.png" if salmo_partitura_path.exists() else "none"
 
