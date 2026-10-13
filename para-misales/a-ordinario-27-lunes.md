@@ -8,7 +8,7 @@ Blanco
 
 # Oración colecta
 
-Dios omnipotente y eterno, que has escogido a santa María Faustina Kowalska para proclamar al mundo las inmensas riquezas de tu infinita misericordia, concédenos, por su intercesión, confiar como ella plenamente en tu bondad, y cumplir con corazón generoso las obras de caridad cristiana. Por nuestro Señor Jesucristo.
+Dios omnipotente y eterno, que has escogido a santa María Faustina Kowalska para proclamar al mundo las inmensas riquezas de tu infinita misericordia, concédenos, por su intercesión, confiar como ella plenamente en tu bondad, y cumplir con corazón generoso las obras de caridad cristiana. Por nuestro Señor Jesucristo, tu Hijo, que vive y reina contigo en la unidad del Espíritu Santo y es Dios por los siglos de los siglos.
 
 # Primera lectura
 
