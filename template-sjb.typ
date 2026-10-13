@@ -147,12 +147,13 @@
       #v(2em)
 
       // El cuaderno del mes lleva portada propia: ni el día litúrgico ni la
-      // fecha, sólo el título del cuaderno y el mes. El misal diario se queda
-      // con la de siempre.
+      // fecha, sólo el mes y el título del cuaderno —el mes delante y con el
+      // cuerpo grande, el título detrás y en el color litúrgico del día—. El
+      // misal diario se queda con la de siempre.
       #if mensual [
-        #text(font: ("Montserrat"), weight: "bold", size: 25pt)[Misal Mensual]
+        #text(font: ("Montserrat"), weight: "bold", size: 25pt)[#mes_capital(fecha)]
 
-        #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[#mes_capital(fecha)]
+        #text(font: ("Montserrat"), size: 18pt, fill: color_fecha)[Misal Mensual]
       ] else [
         #text(font: ("Montserrat"), weight: "bold", size: 25pt)[
           #upper[
