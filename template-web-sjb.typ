@@ -16,7 +16,7 @@
 //   - Los encabezados de nivel 1 se ocultan, igual que en papel.
 //   - La presentación vive en styles.css (Typst no emite CSS): las clases que
 //     se ven aquí (.cubierta, .cubierta-titulo, .respuesta, …) son el enganche.
-#import "common.typ": con_respuestas, dia_semana, fecha_larga
+#import "common.typ": con_respuestas, dia_semana, fecha_larga, lema_path
 
 // En HTML, el color y la negrita que pide respuesta() (text(fill:) + weight:)
 // no sobreviven a la exportación: Typst los descarta y el párrafo sale pelado
@@ -134,7 +134,7 @@
 
       #html.elem("p", attrs: (class: "cubierta-frase"))[#emph(frase)]
 
-      #image("lema-2026.png", width: 10cm)
+      #image(lema_path(fecha), width: 10cm)
     ]
 
     = Ritos iniciales

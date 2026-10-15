@@ -197,6 +197,13 @@
   str(d.day()) + " de " + lower(meses_es.at(d.month() - 1))
 }
 
+// Ruta del lema del año: extrae el año de la fecha y construye «lema-YYYY.png».
+// Se importa en template-sjb.typ y template-web-sjb.typ para la portada.
+#let lema_path(fecha) = {
+  if fecha == none { return "lema-unknown.png" }
+  "lema-" + str(int(fecha.split("-").at(0))) + ".png"
+}
+
 // El mes suelto y con mayúscula: «Octubre». Es lo que lleva la portada del
 // cuaderno del mes, en lugar de la fecha.
 #let mes_capital(fecha) = {

@@ -1,5 +1,5 @@
 // template-sjb.typ
-#import "common.typ": respuesta, con_respuestas, canto, dia_semana, fecha_larga, mes_capital, separador_fecha
+#import "common.typ": respuesta, con_respuestas, canto, dia_semana, fecha_larga, mes_capital, separador_fecha, lema_path
 
 #let cabecera_reflexion(icono, titulo, ambos_lados: true) = {
   let azul = rgb("#2a6099")
@@ -179,7 +179,7 @@
 
       #v(6em)
 
-      #image("lema-2026.png", width: 10cm)
+      #image(lema_path(fecha), width: 10cm)
     ]
 
     #pagebreak()
