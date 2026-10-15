@@ -9,12 +9,7 @@ import html
 import shutil
 from pathlib import Path
 
-from generate_inc import dia_semana_es, romano
-
-BASE_DIR = Path(__file__).parent.resolve()
-PUBLIC_DIR = BASE_DIR / "public"
-CALENDARIO_PATH = BASE_DIR / "calendario.csv"
-FONTS_DIR = BASE_DIR / "fonts"
+from misal import dia_semana_es, romano, BASE_DIR, FONTS_DIR, CALENDARIO_PATH, PUBLIC_DIR
 
 # Fonts the web edition loads (the @font-face blocks in styles.css). The site gets
 # its own copy in public/fonts/, keeping the same relative paths, so the page

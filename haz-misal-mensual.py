@@ -12,40 +12,30 @@ Usage:
 
 import argparse
 import csv
-import importlib.util
 import re
 import sys
 from pathlib import Path
 
-from generate_inc import (
+from misal import (
+    BASE_DIR,
     CALENDARIO_PATH,
     DIAS_SEMANA,
     PARA_MISALES_DIR,
+    SJB_TYP_CONTENT,
+    AJUSTES_MISAL,
+    compilar_typst,
     find_liturgia_md,
     generate_inc_file,
     load_calendar,
+    normalize_date,
+    typst_bool,
+    TEMPLATES,
 )
-
-BASE_DIR = Path(__file__).parent.resolve()
 
 # Las hojas de liturgia se llaman <ciclo>-<tiempo>-<número>-<día>.md. Las de
 # reflexión (20260927-sjb.md) no entran: llevan fecha en el propio nombre y no
 # son la liturgia del día.
 PATRON_HOJA = re.compile(r"^(?P<ciclo>[a-z]+)-(?P<tiempo>[a-z]+)-(?P<numero>\d+)-(?P<dia>[a-z]+)$")
-
-def cargar_haz_misal():
-    """
-    Loads haz-misal.py by path: the name has a hyphen, so it cannot be imported
-    the usual way, and the monthly booklet reuses its Typst wrapper instead of
-    repeating the twenty-odd template arguments.
-    """
-    ruta = BASE_DIR / "haz-misal.py"
-    spec = importlib.util.spec_from_file_location("haz_misal", ruta)
-    modulo = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modulo)
-    return modulo
-
-haz_misal = cargar_haz_misal()
 
 def normalize_month(mes: str) -> tuple[int, int, str]:
     """
@@ -130,13 +120,13 @@ def escribir_dia(fecha: str, indice: int, compacto: str) -> Path:
     # con las propiedades de página por omisión.
     # Los ajustes de página tampoco van aquí: los incluye el maestro una sola vez,
     # porque cada `set page` que entra en vigor abre página nueva.
-    typ_code = haz_misal.SJB_TYP_CONTENT.format(
+    typ_code = SJB_TYP_CONTENT.format(
         inc_file=inc_path.name,
-        portada=haz_misal.typst_bool(portada),
+        portada=typst_bool(portada),
         # La portada del cuaderno es la del primer día: sólo ése dice «Misal
         # Mensual» y el mes.
-        mensual=haz_misal.typst_bool(portada),
-        separador=haz_misal.typst_bool(True),
+        mensual=typst_bool(portada),
+        separador=typst_bool(True),
         ajustes="",
     )
 
@@ -158,7 +148,7 @@ def escribir_maestro(dias: list[Path], compacto: str) -> Path:
     # cada día partían el misal en una página por día.
     lineas = [f'#{{\n  include("{ruta.name}")\n}}' for ruta in dias]
     ruta = BASE_DIR / f"misal-sjb-mensual-{compacto}.typ"
-    contenido = haz_misal.AJUSTES_MISAL + "\n" + "\n".join(lineas) + "\n"
+    contenido = AJUSTES_MISAL + "\n" + "\n".join(lineas) + "\n"
     ruta.write_text(contenido, encoding="utf-8")
     return ruta
 
@@ -213,7 +203,7 @@ def main():
 
         maestro = escribir_maestro(escritos, compacto)
         salida = BASE_DIR / f"misal-sjb-mensual-{compacto}.pdf"
-        compilado = haz_misal.compilar_typst(maestro, salida, "pdf")
+        compilado = compilar_typst(maestro, salida, "pdf")
     finally:
         if args.keep_typ:
             print("Ficheros .typ conservados en el directorio del proyecto:")
