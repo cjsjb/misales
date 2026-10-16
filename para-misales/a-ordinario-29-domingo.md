@@ -10,7 +10,7 @@ Dios nuestro, que quieres que todos los hombres se salven y lleguen al conocimie
 
 Del libro del profeta Isaías 45, 1. 4-6.
 
-Así habló el Señor a Ciro, su ungido, a quien ha tomado de la mano para someter ante él a las naciones y desbaratar la potencia de los reyes, para abrir ante él los portones y que no quede nada cerrado: “Por amor a Jacob, mi siervo, y a Israel, mi escogido, te llamé por tu nombre y te di un título de honor, aunque tú no me conocieras. Yo soy el Señor y no hay otro; fuera de mí no hay Dios. Te hago poderoso, aunque tú no me conoces, para que todos sepan, de oriente a occidente, que no hay otro Dios fuera de mí. Yo soy el Señor y no hay otro”. Palabra de Dios.
+Así habló el Señor a Ciro, su ungido, a quien ha tomado de la mano para someter ante él a las naciones y desbaratar la potencia de los reyes, para abrir ante él los portones y que no quede nada cerrado: "Por amor a Jacob, mi siervo, y a Israel, mi escogido, te llamé por tu nombre y te di un título de honor, aunque tú no me conocieras. Yo soy el Señor y no hay otro; fuera de mí no hay Dios. Te hago poderoso, aunque tú no me conoces, para que todos sepan, de oriente a occidente, que no hay otro Dios fuera de mí. Yo soy el Señor y no hay otro".
 
 # Salmo
 
@@ -35,7 +35,7 @@ Ofrézcanle en sus atrios sacrificios.
 
 Caigamos en su templo de rodillas.
 Tiemblen ante el Señor los atrevidos.
-“Reina el Señor”, digamos a los pueblos.
+"Reina el Señor", digamos a los pueblos.
 Él gobierna a las naciones con justicia.
 
 # Segunda lectura
@@ -60,7 +60,11 @@ Iluminen al mundo con la luz del Evangelio reflejada en su vida.
 
 Del santo Evangelio según san Mateo 22, 15-21.
 
-En aquel tiempo, se reunieron los fariseos para ver la manera de hacer caer a Jesús, con preguntas insidiosas, en algo de lo que pudieran acusarlo. Le enviaron, pues, a algunos de sus secuaces, junto con algunos del partido de Herodes, para que le dijeran: "Maestro, sabemos que eres sincero y enseñas con verdad el camino de Dios, y que nada te arredra, porque no buscas el favor de nadie. Dinos, pues, qué piensas: ¿Es lícito o no pagar el favor al César?". Conociendo Jesús la malicia de sus intenciones, les contestó: "Hipócritas, ¿por qué tratan de sorprenderme? Enséñenme la moneda del tributo. Ellos le presentaron una moneda. Jesús les preguntó: "De quién es esta imagen y esta inscripción?". Le respondieron: "Del César". Y Jesús concluyó: "De, pues, al César lo que es del César, y a Dios lo que es de Dios.
+En aquel tiempo, se reunieron los fariseos para ver la manera de hacer caer a Jesús, con preguntas insidiosas, en algo de que pudieran acusarlo.
+
+Le enviaron, pues, a algunos de sus secuaces, junto con algunos del partido de Herodes, para que le dijeran: "Maestro, sabemos que eres sincero y enseñas con verdad el camino de Dios, y que nada te arredra, porque no buscas el favor de nadie. Dinos, pues, qué piensas: ¿Es lícito o no pagar el tributo al César?"
+
+Conociendo Jesús la malicia de sus intenciones, les contestó: "Hipócritas, ¿por qué tratan de sorprenderme? Enséñenme la moneda del tributo". Ellos le presentaron una moneda. Jesús les preguntó: "¿De quién es esta imagen y esta inscripción?" Le respondieron: "Del César". Y Jesús concluyó: "Den, pues, al César lo que es del César, y a Dios lo que es de Dios".
 
 # Credo
 
